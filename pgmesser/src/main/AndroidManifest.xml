@@ -1,2 +1,8 @@
-<manifest package="us.pinguo.messer"
-    />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="us.pinguo.messer">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+</manifest>
+
+

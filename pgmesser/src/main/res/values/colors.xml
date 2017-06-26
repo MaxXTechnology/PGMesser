@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 小工具 -->
+    <color name="messer_colorPrimary">#393C3E</color>
+    <color name="messer_colorPrimaryDark">#393C3E</color>
+
+    <color name="messer_colorAccent">#FFFFFF</color>
+    <color name="messer_colorControlNormal">#9B9B9E</color>
+
+    <color name="messer_windowBackground">#2B2B2B</color>
+    <color name="messer_colorBottomPrimary">#3C3F41</color>
+</resources>

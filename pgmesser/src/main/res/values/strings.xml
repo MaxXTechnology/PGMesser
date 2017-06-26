@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PGMesser</string>
+    <string name="home_title">Event Log</string>
+
 </resources>
