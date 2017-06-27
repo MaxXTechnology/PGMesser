@@ -1,16 +1,16 @@
 package us.pinguo.messer.home
 
 import android.content.Context
+import android.graphics.PixelFormat
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import kotlinx.android.synthetic.main.window_home.view.*
+import us.pinguo.messer.ActivityLauncher
 import us.pinguo.messer.R
 import us.pinguo.messer.util.UIUtils
-import android.view.Gravity
-import android.graphics.PixelFormat
-
 
 
 /**
@@ -29,16 +29,24 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
 
         mRootView.home_folder.setOnClickListener {
             mPresenter.gotoFolderPage()
+            ActivityLauncher.launchLocalFileBrowser(context)
+            navigation.closeHome()
         }
 
         mRootView.home_cpu.setOnClickListener {
             mRootView.home_cpu.isSelected = !mRootView.home_cpu.isSelected
             mPresenter.watchCpu(mRootView.home_cpu.isSelected)
+            //TODO-remove test code
+            ActivityLauncher.launchDbBrowser(context)
+            navigation.closeHome()
         }
 
         mRootView.home_memory.setOnClickListener {
             mRootView.home_memory.isSelected = !mRootView.home_memory.isSelected
             mPresenter.watchMemory(mRootView.home_memory.isSelected)
+            //TODO-remove test code
+            ActivityLauncher.launchImageBrowser(context)
+            navigation.closeHome()
         }
 
         return mRootView

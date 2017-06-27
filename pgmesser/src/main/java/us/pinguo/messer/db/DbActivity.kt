@@ -5,13 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.wisdom.cy.mykotlin.DbAdapter
 import kotlinx.android.synthetic.main.db_layout.*
-import org.jetbrains.anko.db.select
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.recyclerview.v7.recyclerView
-import org.jetbrains.anko.uiThread
 import us.pinguo.messer.R
-import java.net.URL
-import java.util.*
 
 class DbActivity : AppCompatActivity() {
 
