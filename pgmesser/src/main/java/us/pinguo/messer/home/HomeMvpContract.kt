@@ -1,5 +1,7 @@
 package us.pinguo.messer.home
 
+import android.app.Activity
+
 /**
  * Created by hedongjin on 2017/6/26.
  */
@@ -16,7 +18,7 @@ class HomeMvpContract {
     }
 
     open interface IHomeNavigation {
-        fun gotoFolderPage()
+        fun gotoFolderPage(act: Activity?)
         fun watchCpu(isStart: Boolean)
         fun watchMemory(isStart: Boolean)
     }

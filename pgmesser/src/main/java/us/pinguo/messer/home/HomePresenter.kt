@@ -6,7 +6,7 @@ package us.pinguo.messer.home
 open class HomePresenter(val navigation: HomeMvpContract.IHomeNavigation) : HomeMvpContract.IHomePresenter {
 
     override fun gotoFolderPage() {
-        navigation.gotoFolderPage()
+        navigation.gotoFolderPage(MesserWindowManager.getInstance().getForegroundActivity())
     }
 
     override fun watchCpu(isStart: Boolean) {
