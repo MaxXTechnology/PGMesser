@@ -27,6 +27,8 @@ class ShortcutWindow(context: Context, val navigation: IShortcutNavigation) : Ab
     override fun getLayoutParams(): WindowManager.LayoutParams {
         mLayoutParams = WindowManager.LayoutParams()
         mLayoutParams.type = WindowManager.LayoutParams.TYPE_PHONE
+        mLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
         mLayoutParams.format = PixelFormat.RGBA_8888
         mLayoutParams.gravity = Gravity.LEFT or Gravity.CENTER_VERTICAL
         mLayoutParams.width = UIUtils.dp2px(50f)

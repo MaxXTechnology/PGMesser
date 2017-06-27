@@ -13,6 +13,8 @@ import us.pinguo.messer.R
 import us.pinguo.messer.util.UIUtils
 
 
+
+
 /**
  * Created by hedongjin on 2017/6/26.
  */
@@ -55,6 +57,8 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
     override fun getLayoutParams(): WindowManager.LayoutParams {
         val layoutParams: WindowManager.LayoutParams = WindowManager.LayoutParams()
         layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
         layoutParams.format = PixelFormat.RGBA_8888
         layoutParams.gravity = Gravity.LEFT or Gravity.TOP
         layoutParams.width = UIUtils.dp2px(204f)

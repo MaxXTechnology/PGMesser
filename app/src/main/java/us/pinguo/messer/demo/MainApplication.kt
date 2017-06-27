@@ -32,7 +32,7 @@ class MainApplication : Application() {
         ImageLoader.getInstance().init(config)
         ImageLoader.getInstance().handleSlowNetwork(true)
 
-        MesserWindowManager.getInstance().create(this, object : HomeMvpContract.IHomeNavigation{
+        MesserWindowManager.getInstance().init(this, object : HomeMvpContract.IHomeNavigation{
             override fun gotoFolderPage() {
                 Log.i("MainApplication", "gotoFolderPage")
             }
@@ -45,10 +45,8 @@ class MainApplication : Application() {
                 Log.i("MainApplication", "watchMemory isStart = $isStart")
             }
         })
+
+        MesserWindowManager.getInstance().gotoHome()
     }
 
-    override fun onTerminate() {
-        super.onTerminate()
-        MesserWindowManager.getInstance().destory()
-    }
 }
