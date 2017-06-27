@@ -1,6 +1,7 @@
-<manifest package="us.pinguo.messer"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="us.pinguo.messer">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
 
     <application
@@ -9,5 +10,6 @@
         <activity android:name="us.pinguo.messer.db.DbActivity">
         </activity>
     </application>
-
 </manifest>
+
+
