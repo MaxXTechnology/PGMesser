@@ -3,6 +3,17 @@
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true">
+        <activity android:name="us.pinguo.messer.db.DbActivity">
+        </activity>
+        <activity
+            android:name=".local.LocalFileBrowserActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait" />
+    </application>
 </manifest>
 
 

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">PGMesser</string>
     <string name="home_title">Event Log</string>
+    <string name="last_level_dir">Previous</string>
+    <string name="file_browser">File Browser</string>
 
 </resources>
