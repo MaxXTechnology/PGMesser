@@ -30,4 +30,8 @@ class MainApplication : Application() {
         MesserWindowManager.getInstance().gotoHome()
     }
 
+    override fun onTerminate() {
+        super.onTerminate()
+        MesserWindowManager.getInstance().destory()
+    }
 }

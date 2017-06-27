@@ -69,6 +69,13 @@ class MesserWindowManager private constructor() {
         context.registerActivityLifecycleCallbacks(mLifecycleCallback)
     }
 
+    fun destory() {
+        mContext.unregisterActivityLifecycleCallbacks(mLifecycleCallback)
+
+        WindowCompat.stopWindow(mContext, mHomeWindow)
+        WindowCompat.stopWindow(mContext, mShortcutWindow)
+    }
+
     fun gotoHome() {
         if (mHomeWindow.isAttachToWindow()) {
             mHomeWindow.setVisibility(View.VISIBLE)
