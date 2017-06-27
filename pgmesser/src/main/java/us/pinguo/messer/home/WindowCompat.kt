@@ -27,17 +27,15 @@ class WindowCompat {
 
         }
 
-        fun stopWindow(context: Context, window: AbstractWindow?) {
-            window?.let {
-                window.dispatchPause()
+        fun stopWindow(context: Context, window: AbstractWindow) {
+            window.dispatchPause()
 
-                window.getView()?.let {
-                    val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-                    windowManager.removeView(it)
-                }
-
-                window.dispatchDestory()
+            window.getView()?.let {
+                val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                windowManager.removeView(it)
             }
+
+            window.dispatchDestory()
         }
 
         fun updateViewLayout(context: Context, view: View, layoutParams: WindowManager.LayoutParams) {

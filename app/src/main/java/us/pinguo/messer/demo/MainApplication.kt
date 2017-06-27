@@ -1,6 +1,5 @@
 package us.pinguo.messer.demo
 
-import android.app.Activity
 import android.app.Application
 import android.util.Log
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator
@@ -35,25 +34,19 @@ class MainApplication : Application() {
         ImageLoader.getInstance().handleSlowNetwork(true)
 
         MesserWindowManager.getInstance().init(this, object : HomeMvpContract.IHomeNavigation{
-            override fun gotoFolderPage(act: Activity?) {
+            override fun gotoFolderPage() {
                 Log.i("MainApplication", "gotoFolderPage")
-                MesserWindowManager.getInstance().getForegroundActivity()?.let {
-                    ActivityLauncher.launchLocalFileBrowser(it)
-                }
+                ActivityLauncher.launchLocalFileBrowser(this@MainApplication)
             }
 
             override fun watchCpu(isStart: Boolean) {
                 Log.i("MainApplication", "watchCpu isStart = $isStart")
-                MesserWindowManager.getInstance().getForegroundActivity()?.let {
-                    ActivityLauncher.launchDbBrowser(it)
-                }
+                ActivityLauncher.launchDbBrowser(this@MainApplication)
             }
 
             override fun watchMemory(isStart: Boolean) {
                 Log.i("MainApplication", "watchMemory isStart = $isStart")
-                MesserWindowManager.getInstance().getForegroundActivity()?.let {
-                    ActivityLauncher.launchImageBrowser(it)
-                }
+                ActivityLauncher.launchImageBrowser(this@MainApplication)
 
             }
         })

@@ -1,5 +1,6 @@
 package us.pinguo.messer
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import us.pinguo.messer.db.DbActivity
@@ -13,16 +14,19 @@ object ActivityLauncher {
 
     fun launchLocalFileBrowser(context: Context) {
         val i = Intent(context, LocalFileBrowserActivity::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(i)
     }
 
     fun launchDbBrowser(context: Context) {
         val i = Intent(context, DbActivity::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(i)
     }
 
     fun launchImageBrowser(context: Context) {
         val i = Intent(context, ImageBrowserActivity::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(i)
     }
 }

@@ -16,12 +16,10 @@ class MesserWindowManager private constructor() {
     private lateinit var mHomeWindow: HomeWindow
     private lateinit var mShortcutWindow: ShortcutWindow
     private var mCurrentWindow: AbstractWindow? = null
-    private var mForegroundActivity: Activity? = null
 
     private val mLifecycleCallback = object : Application.ActivityLifecycleCallbacks{
         override fun onActivityPaused(activity: Activity?) {
             mCurrentWindow.setVisibility(View.GONE)
-            mForegroundActivity = null
         }
 
         override fun onActivityResumed(activity: Activity?) {
@@ -37,7 +35,6 @@ class MesserWindowManager private constructor() {
                         mCurrentWindow.setVisibility(View.VISIBLE)
                 }
             }
-            mForegroundActivity = activity
         }
 
         override fun onActivityStarted(activity: Activity?) {
@@ -81,8 +78,6 @@ class MesserWindowManager private constructor() {
         WindowCompat.stopWindow(mContext, mHomeWindow)
         WindowCompat.stopWindow(mContext, mShortcutWindow)
     }
-
-    fun getForegroundActivity() = mForegroundActivity
 
     fun gotoHome() {
         if (mHomeWindow.isAttachToWindow()) {

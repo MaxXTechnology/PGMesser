@@ -18,7 +18,7 @@ class HomeMvpContract {
     }
 
     open interface IHomeNavigation {
-        fun gotoFolderPage(act: Activity?)
+        fun gotoFolderPage()
         fun watchCpu(isStart: Boolean)
         fun watchMemory(isStart: Boolean)
     }
