@@ -2,7 +2,9 @@ package us.pinguo.messer.home
 
 import android.app.Activity
 import android.app.Application
+import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 
 /**
@@ -17,14 +19,19 @@ class MesserWindowManager private constructor() {
 
     private val mLifecycleCallback = object : Application.ActivityLifecycleCallbacks{
         override fun onActivityPaused(activity: Activity?) {
-            mCurrentWindow?.let {
-                it.getView().visibility = View.GONE
-            }
+            mCurrentWindow.setVisibility(View.GONE)
         }
 
         override fun onActivityResumed(activity: Activity?) {
-            mCurrentWindow?.let {
-                it.getView().visibility = View.VISIBLE
+            activity?.let {
+                when (activity.componentName.className) {
+                    "us.pinguo.messer.db.DbActivity" ->
+                        mCurrentWindow.setVisibility(View.GONE)
+                    "us.pinguo.messer.local.LocalFileBrowserActivity" ->
+                        mCurrentWindow.setVisibility(View.GONE)
+                    else ->
+                        mCurrentWindow.setVisibility(View.VISIBLE)
+                }
             }
         }
 
@@ -64,13 +71,13 @@ class MesserWindowManager private constructor() {
 
     fun gotoHome() {
         if (mHomeWindow.isAttachToWindow()) {
-            mHomeWindow.getView().visibility = View.VISIBLE
+            mHomeWindow.setVisibility(View.VISIBLE)
         } else {
             WindowCompat.startWindow(mContext, mHomeWindow)
         }
 
         if (mShortcutWindow.isAttachToWindow()) {
-            mShortcutWindow.getView().visibility = View.GONE
+            mShortcutWindow.setVisibility(View.GONE)
         }
 
         mCurrentWindow = mHomeWindow
@@ -78,17 +85,23 @@ class MesserWindowManager private constructor() {
 
     fun gotoShortcut() {
         if (mShortcutWindow.isAttachToWindow()) {
-            mShortcutWindow.getView().visibility = View.VISIBLE
+            mShortcutWindow.setVisibility(View.VISIBLE)
         } else {
             WindowCompat.startWindow(mContext, mShortcutWindow)
         }
 
         if (mHomeWindow.isAttachToWindow()) {
-            mHomeWindow.getView().visibility = View.GONE
+            mHomeWindow.setVisibility(View.GONE)
         }
 
         mCurrentWindow = mShortcutWindow
 
+    }
+
+    private fun AbstractWindow?.setVisibility(visibility: Int) {
+        this?.let {
+            it.getView().visibility = visibility
+        }
     }
 
     companion object {
