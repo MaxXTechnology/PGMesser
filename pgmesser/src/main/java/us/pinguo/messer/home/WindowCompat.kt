@@ -12,7 +12,7 @@ class WindowCompat {
     // 伴生对象
     companion object {
 
-        fun startWindow(context: Context, window: AbstractWindow?) {
+        fun startWindow(context: Context, window: AbstractWindow) {
             window?.let {
                 window.dispatchCreate()
 
