@@ -7,7 +7,7 @@ import android.view.WindowManager
 /**
  * Created by hedongjin on 2017/6/26.
  */
-class WindowCompt {
+class WindowCompat {
 
     // 伴生对象
     companion object {
