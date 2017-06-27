@@ -46,6 +46,7 @@ class MesserWindowManager private constructor() {
             override fun closeHome() {
                 mHomeWindow.getView().visibility = View.GONE
                 mShortcutWindow.getView().visibility = View.VISIBLE
+                mCurrentWindow = mShortcutWindow
             }
         })
         mHomeWindow.setPresenter(HomePresenter(navigation))
@@ -54,22 +55,25 @@ class MesserWindowManager private constructor() {
             override fun gotoHomeWindow() {
                 mHomeWindow.getView().visibility = View.VISIBLE
                 mShortcutWindow.getView().visibility = View.GONE
+                mCurrentWindow = mHomeWindow
             }
         })
 
-        WindowCompt.startWindow(context, mHomeWindow)
-        WindowCompt.startWindow(context, mShortcutWindow)
+        context.registerActivityLifecycleCallbacks(mLifecycleCallback)
+
+        WindowCompat.startWindow(context, mHomeWindow)
+        WindowCompat.startWindow(context, mShortcutWindow)
 
         mHomeWindow.getView().visibility = View.VISIBLE
         mShortcutWindow.getView().visibility = View.GONE
         mCurrentWindow = mHomeWindow
 
-        context.registerActivityLifecycleCallbacks(mLifecycleCallback)
     }
 
     fun destory() {
         mContext.unregisterActivityLifecycleCallbacks(mLifecycleCallback)
-        WindowCompt.stopWindow(mContext, mHomeWindow)
+        WindowCompat.stopWindow(mContext, mHomeWindow)
+        WindowCompat.stopWindow(mContext, mShortcutWindow)
     }
 
     companion object {
