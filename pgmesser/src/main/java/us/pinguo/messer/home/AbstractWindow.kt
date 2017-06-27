@@ -10,10 +10,12 @@ import android.view.WindowManager
 open abstract class AbstractWindow(val context: Context) {
 
     private lateinit var mRootView: View
+    private var mAttachToWindow = false
 
     fun getView(): View = mRootView
     fun dispatchCreate() {
         mRootView = onCreate()
+        mAttachToWindow = true
     }
 
     fun dispatchResume() {
@@ -25,6 +27,8 @@ open abstract class AbstractWindow(val context: Context) {
     fun dispatchDestory() {
         onDestory()
     }
+
+    fun isAttachToWindow() = mAttachToWindow
 
     open abstract fun getLayoutParams(): WindowManager.LayoutParams
 

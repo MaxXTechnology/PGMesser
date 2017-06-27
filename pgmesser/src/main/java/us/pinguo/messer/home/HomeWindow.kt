@@ -10,8 +10,6 @@ import us.pinguo.messer.R
 import us.pinguo.messer.util.UIUtils
 import android.view.Gravity
 import android.graphics.PixelFormat
-import android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-import android.view.WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
 
 
 
