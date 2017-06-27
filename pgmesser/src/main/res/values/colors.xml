@@ -9,4 +9,6 @@
 
     <color name="messer_windowBackground">#2B2B2B</color>
     <color name="messer_colorBottomPrimary">#3C3F41</color>
+
+    <color name="db_table_line">#dddddd</color>
 </resources>

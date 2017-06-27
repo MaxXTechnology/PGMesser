@@ -13,13 +13,12 @@ import us.pinguo.messer.R
 /**
  * Created by pinguo on 2017/6/20.
  */
-class DbAdapter(val items: List<String>, var clickListener : View.OnClickListener) :
+class DbTableDetailAdapter() :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 //        val view = parent.ctx.layoutInflater.inflate(R.layout.item_list_main, parent, false)
-        var view = parent.context.layoutInflater.inflate(R.layout.db_table_item_layout, parent, false)
-        view.setOnClickListener(clickListener);
+        var view = parent.context.layoutInflater.inflate(R.layout.db_table_detail_item_layout, parent, false)
 
         return object:RecyclerView.ViewHolder(view) {
 
@@ -28,11 +27,14 @@ class DbAdapter(val items: List<String>, var clickListener : View.OnClickListene
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 //        holder.textView.text = "" + items[position].main.temp_min;
-        holder.itemView.name.text = items[position]
-        holder.itemView.setTag(items[position])
+        if (position == 0) {
+            holder.itemView.name.text = "Id      Name      Age      Phone"
+        } else {
+            holder.itemView.name.text = "xx      xxx        xxx       xxxxx"
+        }
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = 2
 
 
 }
