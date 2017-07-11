@@ -8,8 +8,8 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import kotlinx.android.synthetic.main.window_home.view.*
-import us.pinguo.messer.ActivityLauncher
 import us.pinguo.messer.R
+import us.pinguo.messer.util.AppUtils
 import us.pinguo.messer.util.UIUtils
 
 
@@ -43,6 +43,16 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
             mPresenter.watchMemory(mRootView.home_memory.isSelected)
         }
 
+        mRootView.home_more.setOnClickListener {
+
+            writeContent("清除数据 开始")
+
+            if (AppUtils.clearAppData(context))
+                writeContent("清除数据 成功")
+             else
+                writeContent("清除数据 失败")
+        }
+
         return mRootView
     }
 
@@ -68,9 +78,9 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
 
     private fun TextView.setText(content: String, append: Boolean) {
         if (!append) {
-            setText(content)
+            text = content + "\n"
         } else {
-            setText(StringBuffer().append(text).append(content).toString())
+            text = StringBuffer().append(text).append(content).append("\n").toString()
         }
     }
 

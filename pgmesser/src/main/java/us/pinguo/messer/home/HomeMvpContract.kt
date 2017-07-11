@@ -8,7 +8,7 @@ import android.app.Activity
 class HomeMvpContract {
     open interface IHomeView {
         open fun setPresenter(presenter: IHomePresenter)
-        open fun writeContent(content: String, append: Boolean = false)
+        open fun writeContent(content: String, append: Boolean = true)
     }
 
     open interface IHomePresenter {
