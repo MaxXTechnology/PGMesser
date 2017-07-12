@@ -1,5 +1,6 @@
 package com.wisdom.cy.mykotlin
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -13,28 +14,32 @@ import us.pinguo.messer.R
 /**
  * Created by pinguo on 2017/6/20.
  */
-class DbTableDetailAdapter() :
+class DbTableDetailAdapter(val context : Context, val nameList : ArrayList<String>, val resList : List<Map<String, Any?>>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//        val view = parent.ctx.layoutInflater.inflate(R.layout.item_list_main, parent, false)
-        var view = parent.context.layoutInflater.inflate(R.layout.db_table_detail_item_layout, parent, false)
 
-        return object:RecyclerView.ViewHolder(view) {
+        return object:RecyclerView.ViewHolder(TextView(context)) {
 
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 //        holder.textView.text = "" + items[position].main.temp_min;
-        if (position == 0) {
-            holder.itemView.name.text = "Id      Name      Age      Phone"
+        var textView : TextView = holder.itemView as TextView;
+        if (position < nameList.size) {
+
+            textView.setText("  " + nameList[position])
+
         } else {
-            holder.itemView.name.text = "xx      xxx        xxx       xxxxx"
+            var namePosition = position % nameList.size
+            var listPosition = position / nameList.size - 1;
+
+            textView.setText("  " + resList[listPosition][nameList[namePosition]])
         }
     }
 
-    override fun getItemCount() = 2
+    override fun getItemCount() = resList.size * nameList.size
 
 
 }
