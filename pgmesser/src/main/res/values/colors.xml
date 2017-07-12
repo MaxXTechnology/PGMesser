@@ -11,4 +11,5 @@
     <color name="messer_colorBottomPrimary">#3C3F41</color>
 
     <color name="db_table_line">#dddddd</color>
+    <color name="messer_colorSettingDivider">#1f000000</color>
 </resources>

@@ -2,7 +2,9 @@ package us.pinguo.messer.home
 
 import android.app.Activity
 import android.app.Application
+import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 
 /**
@@ -13,15 +15,26 @@ class MesserWindowManager private constructor() {
     private lateinit var mContext: Application
     private lateinit var mHomeWindow: HomeWindow
     private lateinit var mShortcutWindow: ShortcutWindow
-    private lateinit var mCurrentWindow: AbstractWindow
+    private var mCurrentWindow: AbstractWindow? = null
 
     private val mLifecycleCallback = object : Application.ActivityLifecycleCallbacks{
         override fun onActivityPaused(activity: Activity?) {
-            mCurrentWindow.getView().visibility = View.GONE
+            mCurrentWindow.setVisibility(View.GONE)
         }
 
         override fun onActivityResumed(activity: Activity?) {
-            mCurrentWindow.getView().visibility = View.VISIBLE
+            activity?.let {
+                when (activity.componentName.className) {
+                    "us.pinguo.messer.db.DbActivity" ->
+                        mCurrentWindow.setVisibility(View.GONE)
+                    "us.pinguo.messer.local.LocalFileBrowserActivity" ->
+                        mCurrentWindow.setVisibility(View.GONE)
+                    "us.pinguo.messer.image.ImageBrowserActivity" ->
+                        mCurrentWindow.setVisibility(View.GONE)
+                    else ->
+                        mCurrentWindow.setVisibility(View.VISIBLE)
+                }
+            }
         }
 
         override fun onActivityStarted(activity: Activity?) {
@@ -40,40 +53,65 @@ class MesserWindowManager private constructor() {
         }
     }
 
-    fun create(context: Application, navigation: HomeMvpContract.IHomeNavigation) {
+
+    fun init(context: Application, navigation: HomeMvpContract.IHomeNavigation) {
         mContext = context
         mHomeWindow = HomeWindow(context, object : HomeMvpContract.IInnerNavigation{
             override fun closeHome() {
-                mHomeWindow.getView().visibility = View.GONE
-                mShortcutWindow.getView().visibility = View.VISIBLE
-                mCurrentWindow = mShortcutWindow
+                gotoShortcut()
             }
         })
         mHomeWindow.setPresenter(HomePresenter(navigation))
 
         mShortcutWindow = ShortcutWindow(context, object : ShortcutWindow.IShortcutNavigation{
             override fun gotoHomeWindow() {
-                mHomeWindow.getView().visibility = View.VISIBLE
-                mShortcutWindow.getView().visibility = View.GONE
-                mCurrentWindow = mHomeWindow
+                gotoHome()
             }
         })
 
         context.registerActivityLifecycleCallbacks(mLifecycleCallback)
-
-        WindowCompat.startWindow(context, mHomeWindow)
-        WindowCompat.startWindow(context, mShortcutWindow)
-
-        mHomeWindow.getView().visibility = View.VISIBLE
-        mShortcutWindow.getView().visibility = View.GONE
-        mCurrentWindow = mHomeWindow
-
     }
 
     fun destory() {
         mContext.unregisterActivityLifecycleCallbacks(mLifecycleCallback)
+
         WindowCompat.stopWindow(mContext, mHomeWindow)
         WindowCompat.stopWindow(mContext, mShortcutWindow)
+    }
+
+    fun gotoHome() {
+        if (mHomeWindow.isAttachToWindow()) {
+            mHomeWindow.setVisibility(View.VISIBLE)
+        } else {
+            WindowCompat.startWindow(mContext, mHomeWindow)
+        }
+
+        if (mShortcutWindow.isAttachToWindow()) {
+            mShortcutWindow.setVisibility(View.GONE)
+        }
+
+        mCurrentWindow = mHomeWindow
+    }
+
+    fun gotoShortcut() {
+        if (mShortcutWindow.isAttachToWindow()) {
+            mShortcutWindow.setVisibility(View.VISIBLE)
+        } else {
+            WindowCompat.startWindow(mContext, mShortcutWindow)
+        }
+
+        if (mHomeWindow.isAttachToWindow()) {
+            mHomeWindow.setVisibility(View.GONE)
+        }
+
+        mCurrentWindow = mShortcutWindow
+
+    }
+
+    private fun AbstractWindow?.setVisibility(visibility: Int) {
+        this?.let {
+            it.getView().visibility = visibility
+        }
     }
 
     companion object {

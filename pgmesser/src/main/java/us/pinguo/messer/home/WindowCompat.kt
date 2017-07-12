@@ -13,15 +13,17 @@ class WindowCompat {
     companion object {
 
         fun startWindow(context: Context, window: AbstractWindow) {
+            window?.let {
+                window.dispatchCreate()
 
-            window.dispatchCreate()
+                window.getView()?.let {
+                    val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                    windowManager.addView(it, window.getLayoutParams())
+                }
 
-            window.getView()?.let {
-                val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-                windowManager.addView(it, window.getLayoutParams())
+                window.dispatchResume()
             }
 
-            window.dispatchResume()
 
         }
 

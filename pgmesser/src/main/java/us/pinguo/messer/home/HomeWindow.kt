@@ -1,15 +1,17 @@
 package us.pinguo.messer.home
 
 import android.content.Context
+import android.graphics.PixelFormat
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import kotlinx.android.synthetic.main.window_home.view.*
 import us.pinguo.messer.R
+import us.pinguo.messer.util.AppUtils
 import us.pinguo.messer.util.UIUtils
-import android.view.Gravity
-import android.graphics.PixelFormat
+
 
 
 
@@ -41,12 +43,24 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
             mPresenter.watchMemory(mRootView.home_memory.isSelected)
         }
 
+        mRootView.home_more.setOnClickListener {
+
+            writeContent("清除数据 开始")
+
+            if (AppUtils.clearAppData(context))
+                writeContent("清除数据 成功")
+             else
+                writeContent("清除数据 失败")
+        }
+
         return mRootView
     }
 
     override fun getLayoutParams(): WindowManager.LayoutParams {
         val layoutParams: WindowManager.LayoutParams = WindowManager.LayoutParams()
         layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
         layoutParams.format = PixelFormat.RGBA_8888
         layoutParams.gravity = Gravity.LEFT or Gravity.TOP
         layoutParams.width = UIUtils.dp2px(204f)
@@ -64,9 +78,9 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
 
     private fun TextView.setText(content: String, append: Boolean) {
         if (!append) {
-            setText(content)
+            text = content + "\n"
         } else {
-            setText(StringBuffer().append(text).append(content).toString())
+            text = StringBuffer().append(text).append(content).append("\n").toString()
         }
     }
 

@@ -2,6 +2,7 @@ package us.pinguo.messer.demo
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
