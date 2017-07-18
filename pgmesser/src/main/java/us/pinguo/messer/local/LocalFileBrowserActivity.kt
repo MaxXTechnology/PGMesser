@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.act_local_file_browser.*
 import org.jetbrains.anko.find
 import us.pinguo.messer.R
 import java.io.File
-import java.io.FileFilter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -24,9 +23,6 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
 
     private var mSelectFile: File? = null
     private var mRootFile: File? = null
-    private var mFileFilter: FileFilter = FileFilter {
-        it.isDirectory && !it.name.startsWith(".")
-    }
     private val mLastPathStack: LinkedList<String> by lazy {
         LinkedList<String>()
     }
@@ -64,7 +60,7 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
     fun updatePathList(dir: File) {
         mLastPathStack.push(dir.absolutePath)
         current_path.text = dir.absolutePath
-        val files = dir.listFiles(mFileFilter)
+        val files = dir.listFiles()
         val data = ArrayList<PathData>()
         last_level_layout.visibility = if (isRootDir(dir)) View.GONE else View.VISIBLE
         files.mapTo(data) { PathData(it.name, it) }
@@ -115,12 +111,15 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
                 itemView = layoutInflater.inflate(R.layout.vw_save_path_item, parent, false)
                 holder = ViewHolder()
                 holder.title = itemView.find(R.id.tv_options_save_path)
+                holder.icon = itemView.find(R.id.icon)
                 itemView.tag = holder
             } else {
                 itemView = convertView
                 holder = itemView.tag as ViewHolder
             }
-            holder.title!!.text = getItem(position)!!.name
+            val pathData = getItem(position)!!
+            holder.title!!.text = pathData.name
+            holder.icon!!.visibility = if (pathData.path.isDirectory) View.VISIBLE else View.INVISIBLE
             return itemView
         }
 
@@ -144,5 +143,6 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
 
     private inner class ViewHolder {
         var title: TextView? = null
+        var icon: View? = null
     }
 }
