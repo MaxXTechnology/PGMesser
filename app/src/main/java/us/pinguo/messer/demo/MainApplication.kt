@@ -8,6 +8,7 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType
 import us.pinguo.common.imageloader.ImageLoaderExecutorFactory
+import us.pinguo.common.tinypref.TinyPref
 import us.pinguo.messer.ActivityLauncher
 import us.pinguo.messer.home.HomeMvpContract
 import us.pinguo.messer.home.MesserWindowManager
@@ -20,6 +21,7 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        TinyPref.getInstance().init(this)
 
         val config = ImageLoaderConfiguration.Builder(applicationContext)
                 .taskExecutor(ImageLoaderExecutorFactory.createIoExecutor())
