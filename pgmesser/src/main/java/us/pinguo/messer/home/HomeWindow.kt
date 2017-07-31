@@ -13,12 +13,11 @@ import us.pinguo.messer.util.AppUtils
 import us.pinguo.messer.util.UIUtils
 
 
-
-
 /**
  * Created by hedongjin on 2017/6/26.
  */
 open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNavigation) : AbstractWindow(context), HomeMvpContract.IHomeView {
+
     private lateinit var mRootView: View
     private lateinit var mPresenter: HomeMvpContract.IHomePresenter
 
@@ -45,12 +44,12 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
 
         mRootView.home_more.setOnClickListener {
 
-            writeContent("清除数据 开始")
+            writeContent(context.resources.getString(R.string.home_clear_start))
 
             if (AppUtils.clearAppData(context))
-                writeContent("清除数据 成功")
-             else
-                writeContent("清除数据 失败")
+                writeContent(context.resources.getString(R.string.home_clear_success))
+            else
+                writeContent(context.resources.getString(R.string.home_clear_fail))
         }
 
         return mRootView

@@ -15,10 +15,35 @@ import java.io.File
  */
 class LocalFileReadActivity : AppCompatActivity() {
 
+    companion object {
+        fun launch(context: Context, readPath: String) {
+            val intent = Intent(context, LocalFileReadActivity.javaClass)
+            intent.putExtra("readPath", readPath)
+            context.startActivity(intent)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.act_local_file_read)
 
+        initTitleBar()
+        showFileContent()
+    }
+
+    fun initTitleBar() {
+        val readPath = intent.getStringExtra("readPath")
+        readPath?.let {
+            toolbar.title = File(readPath).name
+        }
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.let {  it.setDisplayHomeAsUpEnabled(true)}
+
+        toolbar.setNavigationOnClickListener { finish() }
+    }
+
+    fun showFileContent() {
         doAsync {
             val readPath = intent.getStringExtra("readPath")
             val readText = File(readPath).bufferedReader().readText()
@@ -28,4 +53,5 @@ class LocalFileReadActivity : AppCompatActivity() {
             }
         }
     }
+
 }
