@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.TextView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.act_local_file_browser.*
 import org.jetbrains.anko.find
 import us.pinguo.messer.R
+import us.pinguo.messer.db.DbActivity
+import us.pinguo.messer.image.ImageBrowserActivity
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -84,11 +85,11 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
         } else {
             val fileName = path.name
             if (fileName.endsWith("png") || fileName.endsWith("jpg")) {
-                Toast.makeText(this, "click item to open image", Toast.LENGTH_SHORT).show()
+                ImageBrowserActivity.launch(this, path.absolutePath)
             } else if (fileName.endsWith("db")) {
-                Toast.makeText(this, "click item to open db", Toast.LENGTH_SHORT).show()
-            } else if (fileName.endsWith("xml")) {
-                Toast.makeText(this, "click item to open sharePreference", Toast.LENGTH_SHORT).show()
+                DbActivity.launch(this, path.absolutePath)
+            } else if (fileName.endsWith("xml") || fileName.endsWith("txt")) {
+                LocalFileReadActivity.launch(this, path.absolutePath)
             }
         }
     }
