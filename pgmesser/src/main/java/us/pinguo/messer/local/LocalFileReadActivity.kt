@@ -17,7 +17,7 @@ class LocalFileReadActivity : AppCompatActivity() {
 
     companion object {
         fun launch(context: Context, readPath: String) {
-            val intent = Intent(context, LocalFileReadActivity.javaClass)
+            val intent = Intent(context, LocalFileReadActivity::class.java)
             intent.putExtra("readPath", readPath)
             context.startActivity(intent)
         }
@@ -38,7 +38,7 @@ class LocalFileReadActivity : AppCompatActivity() {
         }
 
         setSupportActionBar(toolbar)
-        supportActionBar?.let {  it.setDisplayHomeAsUpEnabled(true)}
+        supportActionBar?.let { it.setDisplayHomeAsUpEnabled(true) }
 
         toolbar.setNavigationOnClickListener { finish() }
     }

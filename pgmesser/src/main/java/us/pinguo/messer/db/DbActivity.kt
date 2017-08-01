@@ -1,24 +1,22 @@
 package us.pinguo.messer.db
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import com.wisdom.cy.mykotlin.DbAdapter
-import kotlinx.android.synthetic.main.db_layout.*
-import org.jetbrains.anko.db.ManagedSQLiteOpenHelper
-import org.jetbrains.anko.db.MapRowParser
-import org.jetbrains.anko.db.select
 import us.pinguo.messer.R
-import android.os.Environment.getExternalStorageDirectory
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 
 
 class DbActivity : AppCompatActivity() {
+
+    companion object {
+        fun launch(context: Context, readPath: String) {
+            val intent = Intent(context, DbActivity::class.java)
+            intent.putExtra("readPath", readPath)
+            context.startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +24,9 @@ class DbActivity : AppCompatActivity() {
 
         val fm: FragmentManager = supportFragmentManager
 
-        var tableFragment : DbTableFragment = DbTableFragment("/data/data/us.pinguo.messer.demo/databases/puzzle.db");
+        val readPath = intent.getStringExtra("readPath")
+
+        var tableFragment: DbTableFragment = DbTableFragment(readPath)
         fm.beginTransaction().add(R.id.content, tableFragment).commit()
 
 
@@ -74,6 +74,7 @@ class DbActivity : AppCompatActivity() {
 data class Table(val map: MutableMap<String, Any?>) {
 
     var name: String by map
+
     constructor() : this(HashMap()) {
     }
 
