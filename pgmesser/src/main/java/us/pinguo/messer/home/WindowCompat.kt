@@ -42,6 +42,10 @@ class WindowCompat {
             val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             windowManager.updateViewLayout(view, layoutParams)
         }
+
+        fun String.hh() {
+
+        }
     }
 
 }
