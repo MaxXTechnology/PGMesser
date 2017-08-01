@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply from: "${rootDir}/pgmesser/bintrayUpload.gradle"
 
 buildscript {
     ext.anko_version = '0.9.1'
@@ -59,3 +58,5 @@ dependencies {
     compile "org.jetbrains.anko:anko-sqlite:$anko_version"
     testCompile 'junit:junit:4.12'
 }
+
+apply from: "bintrayUpload.gradle"
