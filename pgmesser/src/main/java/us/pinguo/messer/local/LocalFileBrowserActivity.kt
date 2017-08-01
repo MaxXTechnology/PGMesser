@@ -82,7 +82,14 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
         if (path.isDirectory) {
             updatePathList(mAdapter.getItem(position)!!.path)
         } else {
-            Toast.makeText(this, "click item to open", Toast.LENGTH_SHORT).show()
+            val fileName = path.name
+            if (fileName.endsWith("png") || fileName.endsWith("jpg")) {
+                Toast.makeText(this, "click item to open image", Toast.LENGTH_SHORT).show()
+            } else if (fileName.endsWith("db")) {
+                Toast.makeText(this, "click item to open db", Toast.LENGTH_SHORT).show()
+            } else if (fileName.endsWith("xml")) {
+                Toast.makeText(this, "click item to open sharePreference", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
