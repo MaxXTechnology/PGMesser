@@ -13,13 +13,11 @@ class HomeMvpContract {
 
     open interface IHomePresenter {
         open fun gotoFolderPage()
-        open fun watchCpu(isStart: Boolean)
         open fun watchMemory(isStart: Boolean)
     }
 
     open interface IHomeNavigation {
         fun gotoFolderPage()
-        fun watchCpu(isStart: Boolean)
         fun watchMemory(isStart: Boolean)
     }
 
