@@ -34,9 +34,6 @@ class DbTableDetailAdapter(val context : Context, val nameList : ArrayList<Strin
     }
 
     override fun onBindViewHolder(holder: DetailViewHolder, position: Int) {
-//        holder.textView.text = "" + items[position].main.temp_min;
-
-
 
         var textView : TextView = holder.name;
 
@@ -44,7 +41,7 @@ class DbTableDetailAdapter(val context : Context, val nameList : ArrayList<Strin
         if (position < nameList.size) {
             textView .setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
-            textView.setText("  " + nameList[position])
+            textView.setText(nameList[position])
 
         } else {
             textView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
@@ -59,7 +56,7 @@ class DbTableDetailAdapter(val context : Context, val nameList : ArrayList<Strin
                 holder.itemView.setBackgroundColor(Color.WHITE)
             }
 
-            textView.setText("  " + resList[listPosition][nameList[namePosition]])
+            textView.setText("" + resList[listPosition][nameList[namePosition]])
         }
     }
 

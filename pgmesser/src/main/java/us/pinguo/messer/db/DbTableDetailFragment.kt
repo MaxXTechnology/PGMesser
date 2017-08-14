@@ -25,11 +25,16 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
         var view = inflater.inflate(R.layout.db_table_detail_layout, container, false)
         view.title.text = tableName
 
+        var layoutParams : ViewGroup.LayoutParams = view.recyclerview.layoutParams
+        layoutParams.width = nameList.size * resources.getDimensionPixelSize(R.dimen.detail_item_width)
+        view.recyclerview.layoutParams = layoutParams
+
+
         if (nameList.size != 0) {
             view.recyclerview.layoutManager = GridLayoutManager(context, nameList.size)
             view.recyclerview.adapter = DbTableDetailAdapter(context, nameList, resList)
         }
-//
+
         view.back.setOnClickListener{
             activity.supportFragmentManager.beginTransaction().remove(this).commit();
         }
