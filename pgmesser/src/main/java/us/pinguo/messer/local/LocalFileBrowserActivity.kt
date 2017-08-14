@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.act_local_file_browser.*
 import org.jetbrains.anko.find
@@ -88,7 +89,7 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
                 ImageBrowserActivity.launch(this, path.absolutePath)
             } else if (fileName.endsWith("db")) {
                 DbActivity.launch(this, path.absolutePath)
-            } else if (fileName.endsWith("xml") || fileName.endsWith("txt")) {
+            } else {
                 LocalFileReadActivity.launch(this, path.absolutePath)
             }
         }
@@ -127,7 +128,15 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
             }
             val pathData = getItem(position)!!
             holder.title!!.text = pathData.name
-            holder.icon!!.visibility = if (pathData.path.isDirectory) View.VISIBLE else View.INVISIBLE
+            if (pathData.path.isDirectory) {
+                holder.icon!!.setImageResource(R.drawable.ic_file)
+            } else if (pathData.path.name.endsWith("db")) {
+                holder.icon!!.setImageResource(R.drawable.ic_db)
+            } else if (pathData.path.name.endsWith("png") || pathData.path.endsWith("jpg")) {
+                holder.icon!!.setImageResource(R.drawable.ic_image)
+            } else {
+                holder.icon!!.setImageResource(R.drawable.ic_txt)
+            }
             return itemView
         }
 
@@ -151,6 +160,6 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
 
     private inner class ViewHolder {
         var title: TextView? = null
-        var icon: View? = null
+        var icon: ImageView? = null
     }
 }
