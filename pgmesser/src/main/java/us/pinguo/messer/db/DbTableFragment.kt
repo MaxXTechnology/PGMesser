@@ -84,7 +84,9 @@ class DbTableFragment(var dbName : String) : Fragment() {
             uiThread {
                 var nameList : ArrayList<String> = ArrayList()
 
-                list = ArrayList();
+                if (list == null) {
+                    list = ArrayList();
+                }
 
                 if (list.size > 0) {
                     for (name in list.get(0).keys) {
