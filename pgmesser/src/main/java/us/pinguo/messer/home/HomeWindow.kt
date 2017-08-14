@@ -12,6 +12,7 @@ import us.pinguo.messer.R
 import us.pinguo.messer.util.AppUtils
 import us.pinguo.messer.util.MainThreadWatchDog
 import us.pinguo.messer.util.UIUtils
+import us.pinguo.messer.util.WindowGestureDetector
 
 
 /**
@@ -21,6 +22,17 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
 
     private lateinit var mRootView: View
     private lateinit var mPresenter: HomeMvpContract.IHomePresenter
+    private val mLayoutParams by lazy {
+        val params: WindowManager.LayoutParams = WindowManager.LayoutParams()
+        params.type = WindowManager.LayoutParams.TYPE_PHONE
+        params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+        params.format = PixelFormat.RGBA_8888
+        params.gravity = Gravity.LEFT or Gravity.TOP
+        params.width = UIUtils.dp2px(204f)
+        params.height = UIUtils.dp2px(222f)
+        params
+    }
 
     override fun onCreate(): View {
         mRootView = LayoutInflater.from(context).inflate(R.layout.window_home, null, false)
@@ -59,20 +71,20 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
                 writeContent(context.resources.getString(R.string.home_clear_fail))
         }
 
+        val detector = WindowGestureDetector(object : WindowGestureDetector.GestureDetectorListener {
+            override fun onScroll(dx: Int, dy: Int) {
+                WindowCompat.updateWindowLayout(context, this@HomeWindow, dx, dy)
+            }
+
+        })
+        mRootView.setOnTouchListener{v, e ->
+            detector.onTouchEvent(e)
+        }
+
         return mRootView
     }
 
-    override fun getLayoutParams(): WindowManager.LayoutParams {
-        val layoutParams: WindowManager.LayoutParams = WindowManager.LayoutParams()
-        layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-        layoutParams.format = PixelFormat.RGBA_8888
-        layoutParams.gravity = Gravity.LEFT or Gravity.TOP
-        layoutParams.width = UIUtils.dp2px(204f)
-        layoutParams.height = UIUtils.dp2px(222f)
-        return layoutParams
-    }
+    override fun getLayoutParams() = mLayoutParams
 
     override fun setPresenter(presenter: HomeMvpContract.IHomePresenter) {
         mPresenter = presenter

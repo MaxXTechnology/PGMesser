@@ -37,6 +37,6 @@ object DebugMesser {
             }
         })
 
-        MesserWindowManager.getInstance().gotoHome()
+        MesserWindowManager.getInstance().gotoShortcut()
     }
 }
