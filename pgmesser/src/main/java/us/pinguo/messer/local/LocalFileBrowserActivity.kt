@@ -84,6 +84,7 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
             updatePathList(mAdapter.getItem(position)!!.path)
         } else {
             val fileName = path.name
+
             if (fileName.endsWith("png") || fileName.endsWith("jpg")) {
                 ImageBrowserActivity.launch(this, path.absolutePath)
             } else if (fileName.endsWith("db")) {
