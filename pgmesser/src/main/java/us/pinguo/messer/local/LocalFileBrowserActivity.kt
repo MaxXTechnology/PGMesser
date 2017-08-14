@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.act_local_file_browser.*
 import org.jetbrains.anko.find
@@ -13,8 +14,6 @@ import us.pinguo.messer.R
 import us.pinguo.messer.db.DbActivity
 import us.pinguo.messer.image.ImageBrowserActivity
 import java.io.File
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * 内置文件浏览
@@ -24,9 +23,7 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
 
     private var mSelectFile: File? = null
     private var mRootFile: File? = null
-    private val mLastPathStack: LinkedList<String> by lazy {
-        LinkedList<String>()
-    }
+    private var mLastPath: String? = null
     private val mAdapter: PathListAdapter by lazy {
         PathListAdapter()
     }
@@ -59,7 +56,7 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
     }
 
     fun updatePathList(dir: File) {
-        mLastPathStack.push(dir.absolutePath)
+        mLastPath = dir.absolutePath
         current_path.text = dir.absolutePath
         val files = dir.listFiles()
         val data = ArrayList<PathData>()
@@ -70,9 +67,13 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
     }
 
     override fun onBackPressed() {
-        if (mLastPathStack.size > 1) {
-            mLastPathStack.pop()
-            updatePathList(File(mLastPathStack.pop()))
+        if (!mLastPath.isNullOrEmpty()) {
+            val parentFilePath = File(mLastPath).parent
+            if (parentFilePath != null) {
+                updatePathList(File(parentFilePath))
+            } else {
+                super.onBackPressed()
+            }
         } else {
             super.onBackPressed()
         }
@@ -89,7 +90,7 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
                 ImageBrowserActivity.launch(this, path.absolutePath)
             } else if (fileName.endsWith("db")) {
                 DbActivity.launch(this, path.absolutePath)
-            } else if (fileName.endsWith("xml") || fileName.endsWith("txt")) {
+            } else {
                 LocalFileReadActivity.launch(this, path.absolutePath)
             }
         }
@@ -128,7 +129,15 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
             }
             val pathData = getItem(position)!!
             holder.title!!.text = pathData.name
-            holder.icon!!.visibility = if (pathData.path.isDirectory) View.VISIBLE else View.INVISIBLE
+            if (pathData.path.isDirectory) {
+                holder.icon!!.setImageResource(R.drawable.ic_file)
+            } else if (pathData.path.name.endsWith("db")) {
+                holder.icon!!.setImageResource(R.drawable.ic_db)
+            } else if (pathData.path.name.endsWith("png") || pathData.path.endsWith("jpg")) {
+                holder.icon!!.setImageResource(R.drawable.ic_image)
+            } else {
+                holder.icon!!.setImageResource(R.drawable.ic_txt)
+            }
             return itemView
         }
 
@@ -152,6 +161,6 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
 
     private inner class ViewHolder {
         var title: TextView? = null
-        var icon: View? = null
+        var icon: ImageView? = null
     }
 }
