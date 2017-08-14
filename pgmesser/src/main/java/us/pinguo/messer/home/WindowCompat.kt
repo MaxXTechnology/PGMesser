@@ -28,4 +28,13 @@ object WindowCompat {
 
         window.dispatchDestory()
     }
+
+    fun updateWindowLayout(context: Context, window: AbstractWindow, dx: Int, dy: Int) {
+        val layoutParams = window.getLayoutParams()
+        window.getLayoutParams().x += dx
+        window.getLayoutParams().y += dy
+
+        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        windowManager.updateViewLayout(window.getView(), layoutParams)
+    }
 }

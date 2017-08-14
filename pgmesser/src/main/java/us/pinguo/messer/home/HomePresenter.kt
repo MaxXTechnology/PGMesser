@@ -9,10 +9,6 @@ open class HomePresenter(val navigation: HomeMvpContract.IHomeNavigation) : Home
         navigation.gotoFolderPage()
     }
 
-    override fun watchCpu(isStart: Boolean) {
-        navigation.watchCpu(isStart)
-    }
-
     override fun watchMemory(isStart: Boolean) {
         navigation.watchMemory(isStart)
     }

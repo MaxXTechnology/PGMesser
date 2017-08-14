@@ -1,7 +1,6 @@
 package us.pinguo.messer
 
 import android.app.Application
-import android.util.Log
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -31,22 +30,13 @@ object DebugMesser {
 
         MesserWindowManager.getInstance().init(context, object : HomeMvpContract.IHomeNavigation{
             override fun gotoFolderPage() {
-                Log.i("MainApplication", "gotoFolderPage")
                 ActivityLauncher.launchLocalFileBrowser(context)
             }
 
-            override fun watchCpu(isStart: Boolean) {
-                Log.i("MainApplication", "watchCpu isStart = $isStart")
-                ActivityLauncher.launchDbBrowser(context)
-            }
-
             override fun watchMemory(isStart: Boolean) {
-                Log.i("MainApplication", "watchMemory isStart = $isStart")
-                ActivityLauncher.launchImageBrowser(context)
-
             }
         })
 
-        MesserWindowManager.getInstance().gotoHome()
+        MesserWindowManager.getInstance().gotoShortcut()
     }
 }

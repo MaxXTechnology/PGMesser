@@ -117,7 +117,7 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
             val holder: ViewHolder
             val itemView: View
             if (convertView == null) {
-                itemView = layoutInflater.inflate(R.layout.vw_save_path_item, parent, false)
+                itemView = layoutInflater.inflate(R.layout.adapter_path_item, parent, false)
                 holder = ViewHolder()
                 holder.title = itemView.find(R.id.tv_options_save_path)
                 holder.icon = itemView.find(R.id.icon)
