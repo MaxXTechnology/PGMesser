@@ -23,7 +23,6 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
 
     private var mSelectFile: File? = null
     private var mRootFile: File? = null
-    private var mLastPath: String? = null
     private val mAdapter: PathListAdapter by lazy {
         PathListAdapter()
     }
@@ -56,7 +55,6 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
     }
 
     fun updatePathList(dir: File) {
-        mLastPath = dir.absolutePath
         current_path.text = dir.absolutePath
         val files = dir.listFiles()
         val data = ArrayList<PathData>()
@@ -67,13 +65,10 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
     }
 
     override fun onBackPressed() {
-        if (!mLastPath.isNullOrEmpty()) {
-            val parentFilePath = File(mLastPath).parent
-            if (parentFilePath != null) {
-                updatePathList(File(parentFilePath))
-            } else {
-                super.onBackPressed()
-            }
+        if (path_list.tag is File && mRootFile!!.absolutePath != (path_list.tag as File).absolutePath) {
+            var parentDir = path_list.tag as File
+            parentDir = parentDir.parentFile
+            updatePathList(parentDir)
         } else {
             super.onBackPressed()
         }
