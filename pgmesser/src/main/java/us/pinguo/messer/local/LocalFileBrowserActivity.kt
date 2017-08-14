@@ -14,8 +14,6 @@ import us.pinguo.messer.R
 import us.pinguo.messer.db.DbActivity
 import us.pinguo.messer.image.ImageBrowserActivity
 import java.io.File
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * 内置文件浏览
@@ -25,9 +23,7 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
 
     private var mSelectFile: File? = null
     private var mRootFile: File? = null
-    private val mLastPathStack: LinkedList<String> by lazy {
-        LinkedList<String>()
-    }
+    private var mLastPath: String? = null
     private val mAdapter: PathListAdapter by lazy {
         PathListAdapter()
     }
@@ -60,7 +56,7 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
     }
 
     fun updatePathList(dir: File) {
-        mLastPathStack.push(dir.absolutePath)
+        mLastPath = dir.absolutePath
         current_path.text = dir.absolutePath
         val files = dir.listFiles()
         val data = ArrayList<PathData>()
@@ -71,9 +67,13 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
     }
 
     override fun onBackPressed() {
-        if (mLastPathStack.size > 1) {
-            mLastPathStack.pop()
-            updatePathList(File(mLastPathStack.pop()))
+        if (!mLastPath.isNullOrEmpty()) {
+            val parentFilePath = File(mLastPath).parent
+            if (parentFilePath != null) {
+                updatePathList(File(parentFilePath))
+            } else {
+                super.onBackPressed()
+            }
         } else {
             super.onBackPressed()
         }
