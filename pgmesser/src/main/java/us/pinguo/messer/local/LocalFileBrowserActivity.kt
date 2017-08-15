@@ -63,6 +63,15 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
         val files = dir.listFiles()
         val data = ArrayList<PathData>()
         last_level_layout.visibility = if (isRootDir(dir)) View.GONE else View.VISIBLE
+        files.sortWith(Comparator { o1, o2 ->
+            if (o1.isDirectory && o2.isFile) {
+                return@Comparator -1
+            } else if (o1.isFile && o2.isDirectory) {
+                return@Comparator 1
+            } else {
+                return@Comparator o1.name.compareTo(o2.name)
+            }
+        })
         files.mapTo(data) { PathData(it.name, it) }
         mAdapter.setList(data)
         path_list.tag = dir
