@@ -1,1 +1,1 @@
-include ':app', ':pgmesser-debug', ':pgmesser-release'
+include ':app', ':pgmesser-debug'
