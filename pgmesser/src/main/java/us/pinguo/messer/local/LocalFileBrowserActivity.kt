@@ -47,7 +47,11 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
 
     fun initTitleBar() {
         toolbar.setTitle(R.string.file_browser)
+        toolbar.setNavigationIcon(R.drawable.back)
         setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     fun isRootDir(dir: File?): Boolean {
