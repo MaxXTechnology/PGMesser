@@ -29,6 +29,8 @@ class MesserWindowManager private constructor() {
                         mCurrentWindow.setVisibility(View.GONE)
                     "us.pinguo.messer.local.LocalFileBrowserActivity" ->
                         mCurrentWindow.setVisibility(View.GONE)
+                    "us.pinguo.messer.local.LocalFileReadActivity" ->
+                        mCurrentWindow.setVisibility(View.GONE)
                     "us.pinguo.messer.image.ImageBrowserActivity" ->
                         mCurrentWindow.setVisibility(View.GONE)
                     else ->

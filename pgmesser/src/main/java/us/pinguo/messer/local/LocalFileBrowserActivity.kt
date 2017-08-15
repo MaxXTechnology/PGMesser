@@ -63,6 +63,14 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
         val files = dir.listFiles()
         val data = ArrayList<PathData>()
         last_level_layout.visibility = if (isRootDir(dir)) View.GONE else View.VISIBLE
+
+        files.sortBy {
+            if (it.isDirectory) 0
+            else if (isDBFile(it)) 1
+            else if (isImageFile(it)) 2
+            else 3
+        }
+
         files.mapTo(data) { PathData(it.name, it) }
         mAdapter.setList(data)
         path_list.tag = dir
@@ -83,17 +91,20 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
         if (path.isDirectory) {
             updatePathList(mAdapter.getItem(position)!!.path)
         } else {
-            val fileName = path.name
-
-            if (fileName.endsWith("png") || fileName.endsWith("jpg")) {
+            if (isImageFile(path)) {
                 ImageBrowserActivity.launch(this, path.absolutePath)
-            } else if (fileName.endsWith("db")) {
+            } else if (isDBFile(path)) {
                 DbActivity.launch(this, path.absolutePath)
             } else {
                 LocalFileReadActivity.launch(this, path.absolutePath)
             }
         }
     }
+
+    private fun isDBFile(file: File) = file.name.endsWith("db")
+
+    private fun isImageFile(file: File) = file.name.endsWith("png") || file.name.endsWith("jpg")
+
 
     private data class PathData(val name: String, val path: File)
 
@@ -130,9 +141,9 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
             holder.title!!.text = pathData.name
             if (pathData.path.isDirectory) {
                 holder.icon!!.setImageResource(R.drawable.ic_file)
-            } else if (pathData.path.name.endsWith("db")) {
+            } else if (isDBFile(pathData.path)) {
                 holder.icon!!.setImageResource(R.drawable.ic_db)
-            } else if (pathData.path.name.endsWith("png") || pathData.path.endsWith("jpg")) {
+            } else if (isImageFile(pathData.path)) {
                 holder.icon!!.setImageResource(R.drawable.ic_image)
             } else {
                 holder.icon!!.setImageResource(R.drawable.ic_txt)
@@ -162,4 +173,5 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
         var title: TextView? = null
         var icon: ImageView? = null
     }
+
 }
