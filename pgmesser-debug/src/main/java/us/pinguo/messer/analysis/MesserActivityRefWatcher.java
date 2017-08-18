@@ -23,7 +23,7 @@ public final class MesserActivityRefWatcher {
     }
 
     public static void install(Application application, RefWatcher refWatcher) {
-        new ActivityRefWatcher(application, refWatcher).watchActivities();
+        new MesserActivityRefWatcher(application, refWatcher).watchActivities();
     }
 
     private final Application.ActivityLifecycleCallbacks lifecycleCallbacks =
