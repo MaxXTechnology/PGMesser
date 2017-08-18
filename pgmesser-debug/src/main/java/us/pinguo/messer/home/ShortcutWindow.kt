@@ -2,14 +2,11 @@ package us.pinguo.messer.home
 
 import android.content.Context
 import android.graphics.PixelFormat
-import android.util.Log
 import android.view.*
 import android.view.WindowManager.LayoutParams
-import kotlinx.android.synthetic.main.window_shortcut.view.*
 import us.pinguo.messer.R
 import us.pinguo.messer.util.UIUtils
-import us.pinguo.messer.util.WindowGestureDetector
-import us.pinguo.messer.util.WindowGestureDetector.GestureDetectorListener
+import us.pinguo.messer.home.WindowGestureDetector.GestureDetectorListener
 
 /**
  * Created by hedongjin on 2017/6/26.
@@ -30,7 +27,7 @@ class ShortcutWindow(context: Context, val navigation: IShortcutNavigation) : Ab
     override fun onCreate(): View {
         mRootView = LayoutInflater.from(context).inflate(R.layout.window_shortcut, null, false)
 
-        val detector = WindowGestureDetector(object : GestureDetectorListener{
+        val detector = WindowGestureDetector(object : GestureDetectorListener {
 
             override fun onSingleTap() {
                 navigation.gotoHomeWindow()

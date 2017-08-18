@@ -10,9 +10,8 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.window_home.view.*
 import us.pinguo.messer.R
 import us.pinguo.messer.util.AppUtils
-import us.pinguo.messer.util.MainThreadWatchDog
+import us.pinguo.messer.analysis.MainThreadWatchDog
 import us.pinguo.messer.util.UIUtils
-import us.pinguo.messer.util.WindowGestureDetector
 
 
 /**
@@ -59,6 +58,12 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
         mRootView.home_memory.setOnClickListener {
             mRootView.home_memory.isSelected = !mRootView.home_memory.isSelected
             mPresenter.watchMemory(mRootView.home_memory.isSelected)
+
+            if (mRootView.home_memory.isSelected) {
+                writeContent(context.resources.getString(R.string.home_memory_start))
+            } else {
+                writeContent(context.resources.getString(R.string.home_memory_end))
+            }
         }
 
         mRootView.home_more.setOnClickListener {

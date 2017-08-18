@@ -7,6 +7,7 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType
 import us.pinguo.common.imageloader.ImageLoaderExecutorFactory
+import us.pinguo.messer.analysis.MesserLeakCanary
 import us.pinguo.messer.home.HomeMvpContract
 import us.pinguo.messer.home.MesserWindowManager
 
@@ -28,12 +29,21 @@ object DebugMesser {
         ImageLoader.getInstance().init(config)
         ImageLoader.getInstance().handleSlowNetwork(true)
 
+
+        if (!MesserLeakCanary.isInAnalyzerProcess(context)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            MesserLeakCanary.install(context)
+        }
+
+
         MesserWindowManager.getInstance().init(context, object : HomeMvpContract.IHomeNavigation{
             override fun gotoFolderPage() {
                 ActivityLauncher.launchLocalFileBrowser(context)
             }
 
             override fun watchMemory(isStart: Boolean) {
+                MesserLeakCanary.setWatchEnable(isStart)
             }
         })
 

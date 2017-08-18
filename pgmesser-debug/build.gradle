@@ -45,6 +45,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.anko:anko-common:$anko_version"
@@ -54,6 +55,7 @@ dependencies {
     compile "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
     compile "org.jetbrains.anko:anko-design:$anko_version"
     compile "org.jetbrains.anko:anko-recyclerview-v7:$anko_version"
+
 
     compile "org.jetbrains.anko:anko-sqlite:$anko_version"
     testCompile 'junit:junit:4.12'
