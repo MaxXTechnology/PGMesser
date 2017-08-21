@@ -33,9 +33,8 @@ class LocalFileReadActivity : AppCompatActivity() {
 
     fun initTitleBar() {
         val readPath = intent.getStringExtra("readPath")
-        readPath?.let {
-            toolbar.title = File(readPath).name
-        }
+        toolbar.title = File(readPath).name
+        toolbar.setNavigationIcon(R.drawable.back)
 
         setSupportActionBar(toolbar)
         supportActionBar?.let { it.setDisplayHomeAsUpEnabled(true) }

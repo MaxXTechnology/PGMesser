@@ -15,6 +15,11 @@ import static com.squareup.leakcanary.internal.LeakCanaryInternals.isInServicePr
  */
 
 public class MesserLeakCanary {
+
+    public static boolean isWatchEnable() {
+        return MesserActivityRefWatcher.sWatchEnable.get();
+    }
+
     public static void setWatchEnable(Boolean enable) {
         MesserActivityRefWatcher.sWatchEnable.compareAndSet(!enable, enable);
     }

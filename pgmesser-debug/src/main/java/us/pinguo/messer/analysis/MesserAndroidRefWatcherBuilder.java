@@ -80,7 +80,7 @@ public final class MesserAndroidRefWatcherBuilder extends RefWatcherBuilder<Mess
         RefWatcher refWatcher = build();
         if (refWatcher != DISABLED) {
             LeakCanary.enableDisplayLeakActivity(context);
-            ActivityRefWatcher.install((Application) context, refWatcher);
+            MesserActivityRefWatcher.install((Application) context, refWatcher);
         }
         return refWatcher;
     }

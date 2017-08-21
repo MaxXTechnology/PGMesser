@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 
 public final class MesserActivityRefWatcher {
-    protected static AtomicBoolean sWatchEnable = new AtomicBoolean(false);
+    protected static AtomicBoolean sWatchEnable = new AtomicBoolean(true);
 
     /** @deprecated Use {@link #install(Application, RefWatcher)}. */
     @Deprecated

@@ -13,6 +13,7 @@ import org.jetbrains.anko.runOnUiThread
 import us.pinguo.messer.DebugMesser
 import us.pinguo.messer.R
 import us.pinguo.messer.analysis.MainThreadWatchDog
+import us.pinguo.messer.analysis.MesserLeakCanary
 import us.pinguo.messer.util.AppUtils
 import us.pinguo.messer.util.UIUtils
 
@@ -64,6 +65,7 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
             }
         }
 
+        mRootView.home_memory.isSelected = MesserLeakCanary.isWatchEnable()
         mRootView.home_memory.setOnClickListener {
             mRootView.home_memory.isSelected = !mRootView.home_memory.isSelected
             mPresenter.watchMemory(mRootView.home_memory.isSelected)
@@ -108,6 +110,9 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
         mRootView.home_content.append("Logs will print here\n")
         mRootView.clear_log.onClick { mRootView.home_content.text = "" }
         DebugMesser.registerLogReceiver(this)
+
+
+
         return mRootView
     }
 

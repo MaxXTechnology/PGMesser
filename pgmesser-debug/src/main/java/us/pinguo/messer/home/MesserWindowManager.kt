@@ -6,6 +6,13 @@ import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.support.v4.content.ContextCompat.startActivity
+import android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION
+import android.content.Intent
+import android.provider.Settings.canDrawOverlays
+import android.os.Build
+import android.provider.Settings
+
 
 /**
  * Created by hedongjin on 2017/6/26.
@@ -73,6 +80,7 @@ class MesserWindowManager private constructor() {
 
         context.registerActivityLifecycleCallbacks(mLifecycleCallback)
     }
+
 
     fun destory() {
         mContext.unregisterActivityLifecycleCallbacks(mLifecycleCallback)

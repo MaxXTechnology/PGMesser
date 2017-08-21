@@ -1,6 +1,9 @@
 package us.pinguo.messer
 
 import android.app.Application
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -62,6 +65,11 @@ object DebugMesser {
                 MesserLeakCanary.setWatchEnable(isStart)
             }
         })
+
+        if (Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(context)) {
+            context.startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION))
+            return
+        }
 
         MesserWindowManager.getInstance().gotoShortcut()
     }
