@@ -14,7 +14,11 @@ import us.pinguo.messer.home.MesserWindowManager
  * Created by hedongjin on 2017/8/1.
  */
 object DebugMesser {
-    fun install(context: Application) {
+
+    var appSdRoot: String? = null
+
+    fun install(context: Application, sdcardRootDir: String? = null) {
+        appSdRoot = sdcardRootDir
 
         val config = ImageLoaderConfiguration.Builder(context)
                 .taskExecutor(ImageLoaderExecutorFactory.createIoExecutor())
@@ -28,7 +32,7 @@ object DebugMesser {
         ImageLoader.getInstance().init(config)
         ImageLoader.getInstance().handleSlowNetwork(true)
 
-        MesserWindowManager.getInstance().init(context, object : HomeMvpContract.IHomeNavigation{
+        MesserWindowManager.getInstance().init(context, object : HomeMvpContract.IHomeNavigation {
             override fun gotoFolderPage() {
                 ActivityLauncher.launchLocalFileBrowser(context)
             }
