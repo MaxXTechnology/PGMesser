@@ -1,7 +1,9 @@
 package us.pinguo.messer.local
 
+import android.Manifest
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -10,9 +12,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.act_local_file_browser.*
 import org.jetbrains.anko.find
+import us.pinguo.messer.DebugMesser
 import us.pinguo.messer.R
 import us.pinguo.messer.db.DbActivity
 import us.pinguo.messer.image.ImageBrowserActivity
+import us.pinguo.messer.util.AppUtils
 import java.io.File
 
 /**
@@ -21,8 +25,11 @@ import java.io.File
  */
 class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
-    private var mSelectFile: File? = null
-    private var mRootFile: File? = null
+    companion object {
+        val ROOT_FILE_TAG = "ROOT_FILE_TAG"
+    }
+
+    private val mRootFileList: ArrayList<File> = arrayListOf()
     private val mAdapter: PathListAdapter by lazy {
         PathListAdapter()
     }
@@ -33,16 +40,25 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
         initTitleBar()
         last_level_layout.setOnClickListener {
             if (path_list.tag is File) {
-                var parentDir = path_list.tag as File
-                parentDir = parentDir.parentFile
-                updatePathList(parentDir)
+                if (isRootDir(path_list.tag as File)) {
+                    updateRootList()
+                } else {
+                    var parentDir = path_list.tag as File
+                    parentDir = parentDir.parentFile
+                    updatePathList(parentDir)
+                }
             }
         }
         path_list.adapter = mAdapter
         path_list.onItemClickListener = this
-        mRootFile = this.filesDir.parentFile
-        mSelectFile = mRootFile
-        updatePathList(mSelectFile!!)
+
+        mRootFileList.add(this.filesDir.parentFile)
+        // 有给我们设置sd卡根路径，且授权了sd卡权限的情况下显示
+        if (!TextUtils.isEmpty(DebugMesser.appSdRoot)
+                && AppUtils.checkDangerousPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            mRootFileList.add(File(DebugMesser.appSdRoot))
+        }
+        updateRootList()
     }
 
     fun initTitleBar() {
@@ -54,15 +70,24 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
         }
     }
 
-    fun isRootDir(dir: File?): Boolean {
-        return dir != null && dir.absolutePath.equals(mRootFile!!.absolutePath, ignoreCase = true)
+    fun isRootDir(file: File?): Boolean {
+        return file != null && file in mRootFileList
+    }
+
+    fun updateRootList() {
+        current_path.setText(R.string.root_path)
+        val data = ArrayList<PathData>()
+        mRootFileList.mapTo(data) { PathData(it.name, it) }
+        mAdapter.setList(data)
+        path_list.tag = ROOT_FILE_TAG
+        last_level_layout.visibility = View.GONE
     }
 
     fun updatePathList(dir: File) {
         current_path.text = dir.absolutePath
         val files = dir.listFiles()
         val data = ArrayList<PathData>()
-        last_level_layout.visibility = if (isRootDir(dir)) View.GONE else View.VISIBLE
+        last_level_layout.visibility = View.VISIBLE
 
         files.sortBy {
             if (it.isDirectory) 0
@@ -77,10 +102,14 @@ class LocalFileBrowserActivity : AppCompatActivity(), AdapterView.OnItemClickLis
     }
 
     override fun onBackPressed() {
-        if (path_list.tag is File && mRootFile!!.absolutePath != (path_list.tag as File).absolutePath) {
-            var parentDir = path_list.tag as File
-            parentDir = parentDir.parentFile
-            updatePathList(parentDir)
+        if (path_list.tag is File) {
+            if (isRootDir(path_list.tag as File)) {
+                updateRootList()
+            } else {
+                var parentDir = path_list.tag as File
+                parentDir = parentDir.parentFile
+                updatePathList(parentDir)
+            }
         } else {
             super.onBackPressed()
         }

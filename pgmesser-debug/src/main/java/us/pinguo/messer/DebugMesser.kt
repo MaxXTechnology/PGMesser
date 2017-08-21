@@ -19,7 +19,7 @@ import us.pinguo.messer.home.MesserWindowManager
  * Created by hedongjin on 2017/8/1.
  */
 object DebugMesser {
-
+    var appSdRoot: String? = null
     var receiver: LogReceiver? = null
 
     internal fun registerLogReceiver(receiver: LogReceiver) {
@@ -34,7 +34,8 @@ object DebugMesser {
         receiver?.onReceiveLog(time, level, tag, msg)
     }
 
-    fun install(context: Application) {
+    fun install(context: Application, sdcardRootDir: String? = null) {
+        appSdRoot = sdcardRootDir
 
         val config = ImageLoaderConfiguration.Builder(context)
                 .taskExecutor(ImageLoaderExecutorFactory.createIoExecutor())

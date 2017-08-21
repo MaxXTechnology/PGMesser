@@ -18,4 +18,5 @@
 
     <string name="read_text_title">文本</string>
 
+    <string name="root_path">根目录</string>
 </resources>
