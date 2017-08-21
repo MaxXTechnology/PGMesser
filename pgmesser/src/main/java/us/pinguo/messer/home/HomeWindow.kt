@@ -2,12 +2,12 @@ package us.pinguo.messer.home
 
 import android.content.Context
 import android.graphics.PixelFormat
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowManager
+import android.view.*
+import android.widget.AdapterView
+import android.widget.BaseAdapter
 import android.widget.TextView
 import kotlinx.android.synthetic.main.window_home.view.*
+import org.jetbrains.anko.onClick
 import us.pinguo.messer.R
 import us.pinguo.messer.util.AppUtils
 import us.pinguo.messer.util.MainThreadWatchDog
@@ -19,6 +19,10 @@ import us.pinguo.messer.util.WindowGestureDetector
  * Created by hedongjin on 2017/6/26.
  */
 open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNavigation) : AbstractWindow(context), HomeMvpContract.IHomeView {
+
+    companion object {
+        val LOG_LEVELS = listOf("Verbose", "Debug", "Info", "Warn", "Error")
+    }
 
     private lateinit var mRootView: View
     private lateinit var mPresenter: HomeMvpContract.IHomePresenter
@@ -77,11 +81,49 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
             }
 
         })
-        mRootView.setOnTouchListener{v, e ->
+        mRootView.setOnTouchListener { v, e ->
             detector.onTouchEvent(e)
         }
 
+        val logLevelAdapter = LogLevelAdapter()
+        mRootView.log_level_spinner.adapter = logLevelAdapter
+        mRootView.log_level_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+            }
+        }
+        for (i in 0..100) {
+            mRootView.home_content.append("Logs will print here\n")
+        }
+
+        mRootView.clear_log.onClick { mRootView.home_content.text = "" }
         return mRootView
+    }
+
+    private class LogLevelAdapter : BaseAdapter() {
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            val textView: TextView = View.inflate(parent?.context, R.layout.view_log_level,
+                    null) as TextView
+            textView.text = getItem(position)
+            return textView
+        }
+
+        override fun getItem(position: Int): String {
+            return LOG_LEVELS[position]
+        }
+
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
+        }
+
+        override fun getCount(): Int {
+            return LOG_LEVELS.count()
+        }
+
     }
 
     override fun getLayoutParams() = mLayoutParams
