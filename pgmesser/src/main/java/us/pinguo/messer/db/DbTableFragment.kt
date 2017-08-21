@@ -36,11 +36,11 @@ class DbTableFragment(var dbName : String) : Fragment() {
 
             var list = sqliteDatabase.select("sqlite_master").parseList(object : MapRowParser<String> {
                 override fun parseRow(columns: Map<String, Any?>): String {
-
                     var name = columns["name"] as String
                     return name
                 }
             })
+
 
             uiThread {
                 if (!activity.isFinishing) {
@@ -95,7 +95,7 @@ class DbTableFragment(var dbName : String) : Fragment() {
                 }
 
                 var fm: FragmentManager = activity.supportFragmentManager
-                var tableDetailFragment : DbTableDetailFragment = DbTableDetailFragment(name, nameList, list)
+                var tableDetailFragment : DbTableDetailFragment = DbTableDetailFragment(name, nameList, list, dbName, name)
                 fm.beginTransaction().add(R.id.content, tableDetailFragment).addToBackStack("table_detail").commit()
 
             }

@@ -14,12 +14,13 @@ import kotlinx.android.synthetic.main.db_table_item_layout.view.*
 import kotlinx.android.synthetic.main.db_table_layout.view.*
 import org.jetbrains.anko.layoutInflater
 import us.pinguo.messer.R
+import us.pinguo.messer.db.DbTableDetailFragment
 import java.util.*
 
 /**
  * Created by pinguo on 2017/6/20.
  */
-class DbTableDetailAdapter(val context : Context, val nameList : ArrayList<String>, val resList : List<Map<String, Any?>>) :
+class DbTableDetailAdapter(val context : Context, val nameList : ArrayList<String>, val resList : List<Map<String, Any?>>, val clickListener: View.OnClickListener) :
         RecyclerView.Adapter<DbTableDetailAdapter.DetailViewHolder>() {
 
     var grayColor : Int = Color.parseColor("#f9f9f9")
@@ -28,6 +29,7 @@ class DbTableDetailAdapter(val context : Context, val nameList : ArrayList<Strin
 
 
         var view : View = LayoutInflater.from(context).inflate(R.layout.db_table_detail_item_layout, parent, false);
+        view.setOnClickListener(clickListener)
         return object:DetailViewHolder(view) {
 
         }
@@ -42,6 +44,7 @@ class DbTableDetailAdapter(val context : Context, val nameList : ArrayList<Strin
             textView .setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
             textView.setText(nameList[position])
+            holder.itemView.tag = null;
 
         } else {
             textView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
@@ -56,7 +59,11 @@ class DbTableDetailAdapter(val context : Context, val nameList : ArrayList<Strin
                 holder.itemView.setBackgroundColor(Color.WHITE)
             }
 
-            textView.setText("" + resList[listPosition][nameList[namePosition]])
+            textView.text = "" + resList[listPosition][nameList[namePosition]]
+
+            holder.itemView.tag = textView.text;
+            holder.itemView.setTag(R.id.name_position, namePosition)
+            holder.itemView.setTag(R.id.list_position, listPosition)
         }
     }
 
