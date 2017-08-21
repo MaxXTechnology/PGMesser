@@ -9,12 +9,28 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType
 import us.pinguo.common.imageloader.ImageLoaderExecutorFactory
 import us.pinguo.messer.analysis.MesserLeakCanary
 import us.pinguo.messer.home.HomeMvpContract
+import us.pinguo.messer.home.LogReceiver
 import us.pinguo.messer.home.MesserWindowManager
 
 /**
  * Created by hedongjin on 2017/8/1.
  */
 object DebugMesser {
+
+    var receiver: LogReceiver? = null
+
+    internal fun registerLogReceiver(receiver: LogReceiver) {
+        this.receiver = receiver
+    }
+
+    internal fun unRegisterLogReceiver() {
+        this.receiver = null
+    }
+
+    fun handleMessage(time: Long, level: Int, tag: String, msg: String) {
+        receiver?.onReceiveLog(time, level, tag, msg)
+    }
+
     fun install(context: Application) {
 
         val config = ImageLoaderConfiguration.Builder(context)
@@ -37,7 +53,7 @@ object DebugMesser {
         }
 
 
-        MesserWindowManager.getInstance().init(context, object : HomeMvpContract.IHomeNavigation{
+        MesserWindowManager.getInstance().init(context, object : HomeMvpContract.IHomeNavigation {
             override fun gotoFolderPage() {
                 ActivityLauncher.launchLocalFileBrowser(context)
             }
@@ -49,4 +65,6 @@ object DebugMesser {
 
         MesserWindowManager.getInstance().gotoShortcut()
     }
+
+
 }
