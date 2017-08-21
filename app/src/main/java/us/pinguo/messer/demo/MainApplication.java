@@ -3,6 +3,8 @@ package us.pinguo.messer.demo;
 import android.app.Application;
 import android.os.Environment;
 
+import us.pinguo.common.log.L;
+import us.pinguo.common.log.LogPrintListener;
 import us.pinguo.messer.DebugMesser;
 
 /**
@@ -10,10 +12,23 @@ import us.pinguo.messer.DebugMesser;
  */
 
 public class MainApplication extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        L.setLogEnable(true);
         DebugMesser.INSTANCE.install(this, Environment.getExternalStorageDirectory().getAbsolutePath());
+        L.setLogListener(new LogPrintListener() {
+            @Override
+            public void onLog(long time, String tag, int level, String msg) {
+                DebugMesser.INSTANCE.handleMessage(time, level, tag, msg);
+            }
+        });
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        L.setLogListener(null);
     }
 }

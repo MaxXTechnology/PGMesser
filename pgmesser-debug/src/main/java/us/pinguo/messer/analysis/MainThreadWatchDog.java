@@ -1,4 +1,4 @@
-package us.pinguo.messer.util;
+package us.pinguo.messer.analysis;
 
 /**
  * Created by hedongjin on 2017/8/7.

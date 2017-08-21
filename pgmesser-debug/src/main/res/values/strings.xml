@@ -5,12 +5,16 @@
     <string name="file_browser">File Browser</string>
 
 
-    <string name="home_cpu_start">开始耗時統計</string>
-    <string name="home_cpu_end">統計耗時結束</string>
+    <string name="home_cpu_start">开始耗时统计</string>
+    <string name="home_cpu_end">耗时统计结束</string>
+
+    <string name="home_memory_start">开始内存分析</string>
+    <string name="home_memory_end">内存分析结束</string>
 
     <string name="home_clear_start">开始清理</string>
     <string name="home_clear_success">清除数据成功</string>
     <string name="home_clear_fail">清楚数据失败</string>
+
 
     <string name="read_text_title">文本</string>
 
