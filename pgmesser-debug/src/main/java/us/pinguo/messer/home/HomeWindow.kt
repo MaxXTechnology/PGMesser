@@ -2,27 +2,32 @@ package us.pinguo.messer.home
 
 import android.content.Context
 import android.graphics.PixelFormat
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.TextView
 import kotlinx.android.synthetic.main.window_home.view.*
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.runOnUiThread
+import us.pinguo.messer.DebugMesser
 import us.pinguo.messer.R
-import us.pinguo.messer.util.AppUtils
 import us.pinguo.messer.analysis.MainThreadWatchDog
+import us.pinguo.messer.util.AppUtils
 import us.pinguo.messer.util.UIUtils
 
 
 /**
  * Created by hedongjin on 2017/6/26.
  */
-open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNavigation) : AbstractWindow(context), HomeMvpContract.IHomeView {
+open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNavigation) : AbstractWindow(context), HomeMvpContract.IHomeView, LogReceiver {
 
     companion object {
         val LOG_LEVELS = listOf("Verbose", "Debug", "Info", "Warn", "Error")
+        val LOG_LEVELS_VALUE = listOf(Log.VERBOSE, Log.DEBUG, Log.INFO, Log.WARN, Log.ERROR)
     }
 
+    private var mCurrentLogLevel = Log.INFO
     private lateinit var mRootView: View
     private lateinit var mPresenter: HomeMvpContract.IHomePresenter
     private val mLayoutParams by lazy {
@@ -97,15 +102,35 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
+                mCurrentLogLevel = LOG_LEVELS_VALUE[position]
             }
         }
-        for (i in 0..100) {
-            mRootView.home_content.append("Logs will print here\n")
-        }
-
+        mRootView.home_content.append("Logs will print here\n")
         mRootView.clear_log.onClick { mRootView.home_content.text = "" }
+        DebugMesser.registerLogReceiver(this)
         return mRootView
+    }
+
+    override fun onDestory() {
+        super.onDestory()
+        DebugMesser.unRegisterLogReceiver()
+    }
+
+    override fun onReceiveLog(time: Long, level: Int, tag: String, msg: String) {
+        if (mCurrentLogLevel <= level) {
+            val levelStr = when (level) {
+                Log.VERBOSE -> "v"
+                Log.DEBUG -> "d"
+                Log.INFO -> "i"
+                Log.WARN -> "w"
+                Log.ERROR -> "e"
+                else -> "v"
+            }
+            val logLine = "[$levelStr][$tag]$msg\n"
+            context.runOnUiThread {
+                mRootView.home_content.append(logLine)
+            }
+        }
     }
 
     private class LogLevelAdapter : BaseAdapter() {
