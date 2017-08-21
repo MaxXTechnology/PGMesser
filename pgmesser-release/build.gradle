@@ -1,18 +1,23 @@
-apply plugin: 'com.android.application'
-
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
+
+
     defaultConfig {
-        applicationId "us.pinguo.messer.demo"
+        vectorDrawables.useSupportLibrary = true
+
         minSdkVersion 15
-        targetSdkVersion 22
-        multiDexEnabled true
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -27,15 +32,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    annotationProcessor 'us.pinguo.common:db-compiler:1.06'
-    compile 'us.pinguo.common:db-annotation:1.06'
-    compile 'us.pinguo.common:db:1.06'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'us.pinguo.common:tinypref:1.0.0'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile project(':pgmesser-debug')
-    compile 'us.pinguo.common:log:2.2.1'
 
+    testCompile 'junit:junit:4.12'
 }
+
+apply from: rootProject.file('gradle/deploy.gradle')

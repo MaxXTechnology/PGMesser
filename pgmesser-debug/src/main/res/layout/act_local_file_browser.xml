@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#ffffff"
+        app:titleTextColor="#000000" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/current_path"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#f5f5f5"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/current_path">
+
+            <RelativeLayout
+                android:id="@+id/last_level_layout"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/selector_last_level_btn">
+
+                <TextView
+                    android:id="@+id/last_level_dir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="@string/last_level_dir"
+                    android:textColor="#333333"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/last_level_dir"
+                    app:srcCompat="@drawable/ic_last_level" />
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/path_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/last_level_layout"
+                android:divider="@color/messer_colorSettingDivider"
+                android:dividerHeight="1px" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/actionbar_shadow"></View>
+    </RelativeLayout>
+
+
+</LinearLayout>

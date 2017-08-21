@@ -1,0 +1,24 @@
+// deploy artifacts to maven
+apply plugin: 'maven'
+
+// 打包信息
+
+// 将源码打成jar包
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+// 将工程打包发布到maven
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "http://10.1.4.208:8081/nexus/content/repositories/releases/") {
+            authentication(userName: 'admin', password: 'QQWDytjh2015')
+        }
+        pom.project {
+            groupId project.PUBLISH_GROUP_ID
+            artifactId project.PUBLISH_ARTIFACT_ID
+            version project.PUBLISH_VERSION
+        }
+    }
+}

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/messer_colorPrimary">
+
+        <Spinner
+            android:id="@+id/log_level_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_toRightOf="@id/title" />
+
+        <ImageView
+            android:id="@+id/home_close"
+            android:layout_width="40dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:scaleType="center"
+            android:src="@drawable/home_close"
+            android:tint="@color/messer_colorControlNormal" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/messer_windowBackground">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/home_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textColor="#00e334"
+                android:textSize="7sp" />
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/clear_log"
+            android:layout_width="45dp"
+            android:layout_height="28dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="4dp"
+            android:text="clear"
+            android:textSize="7sp" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="27dp"
+        android:background="@color/messer_colorBottomPrimary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/home_folder"
+            style="@style/HomeTabStyle"
+            android:src="@drawable/home_folder" />
+
+        <ImageView
+            android:id="@+id/home_cpu"
+            style="@style/HomeTabStyle"
+            android:src="@drawable/home_cpu" />
+
+        <ImageView
+            android:id="@+id/home_memory"
+            style="@style/HomeTabStyle"
+            android:src="@drawable/home_memory" />
+
+        <ImageView
+            android:id="@+id/home_more"
+            style="@style/HomeTabStyle"
+            android:src="@drawable/home_more" />
+
+    </LinearLayout>
+
+</LinearLayout>
