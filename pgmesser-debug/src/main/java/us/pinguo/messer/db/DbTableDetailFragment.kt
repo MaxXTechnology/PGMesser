@@ -19,11 +19,18 @@ import org.jetbrains.anko.db.select
 import us.pinguo.messer.R
 import java.util.*
 import android.content.ContentValues
+import android.graphics.Rect
 import android.os.AsyncTask
+import android.os.Build
 import android.support.annotation.UiThread
+import android.view.ViewTreeObserver
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import kotlin.collections.ArrayList
+import us.pinguo.messer.util.UIUtils
+
+
+
+
 
 
 /**
@@ -34,6 +41,32 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
     var mNamePosition : Int = -1
     var mListPosition : Int = -1
     var oldText : String = ""
+    var mContentView: View? = null
+
+    var mKeyboardHeight : Int = -1
+    var mPreviousDisplayHeight : Int = -1
+
+    var mOnGlobalLayoutListener : ViewTreeObserver.OnGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+        val displayHeight : Int = getDisplayFrameHeight(mContentView)
+        val keyboardHeight = getSystemKeyboardHeight(mContentView)
+
+
+        if (mPreviousDisplayHeight !== displayHeight && (keyboardHeight != 0 || mKeyboardHeight !== -1)) {
+            mPreviousDisplayHeight = displayHeight
+            // 更新软件盘的大小
+            if (mKeyboardHeight < keyboardHeight) {
+                mKeyboardHeight = keyboardHeight
+            }
+
+            var key_height : Int = resources.getDimensionPixelSize(R.dimen.keyboard_height_limit)
+            if (keyboardHeight > key_height) {
+
+            } else {
+
+                edit_text_layout.visibility = View.GONE
+            }
+        }
+    }
 
 
     var mItemClickListener : View.OnClickListener = View.OnClickListener {
@@ -60,7 +93,9 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
         recyclerview.adapter.notifyDataSetChanged();
 
         val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        imm.hideSoftInputFromWindow(edit_text.getWindowToken(), 0); //
+
+
         edit_text_layout.visibility = View.GONE
 
         doAsync{
@@ -100,9 +135,6 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
         }
 
 
-
-
-
     }
 
 
@@ -129,5 +161,50 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
 
 
         return view;
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        if (mContentView != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mContentView!!.getViewTreeObserver().removeOnGlobalLayoutListener(mOnGlobalLayoutListener);
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        mContentView = activity.getWindow().getDecorView();
+        if (mContentView != null) {
+            mContentView!!.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
+        }
+
+
+    }
+
+    fun getDisplayFrameHeight(view: View?): Int {
+        // 显示区域的大小，不包括键盘区域
+        val displayRect = Rect()
+        view!!.getWindowVisibleDisplayFrame(displayRect)
+        return displayRect.height()
+    }
+
+    fun getSystemKeyboardHeight(view: View?): Int {
+
+        // 显示区域的大小，不包括键盘区域
+        val displayRect = Rect()
+        view!!.getWindowVisibleDisplayFrame(displayRect)
+
+        // 状态栏的高度
+        val stateHeight = displayRect.top
+
+        val screenHeight = UIUtils.getScreenHeight()
+
+        val systemKeyboardHeight = screenHeight - stateHeight - displayRect.height()
+
+
+        return systemKeyboardHeight
     }
 }
