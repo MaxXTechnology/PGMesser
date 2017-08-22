@@ -1,13 +1,7 @@
 package us.pinguo.messer
 
-import android.Manifest
 import android.app.Application
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Environment
-import android.provider.Settings
-import android.support.v4.content.ContextCompat
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -75,14 +69,7 @@ object DebugMesser {
             }
         })
 
-        if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(context, Manifest.permission.SYSTEM_ALERT_WINDOW)) {
-            MesserWindowManager.getInstance().gotoShortcut()
-        } else if (Build.VERSION.SDK_INT >= 23) {
-            context.startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION))
-        } else {
-            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS))
-        }
-
+        MesserWindowManager.getInstance().gotoShortcut()
     }
 
 

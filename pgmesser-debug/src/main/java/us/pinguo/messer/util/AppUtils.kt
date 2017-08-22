@@ -17,7 +17,7 @@ object AppUtils {
 
     fun checkDangerousPermission(context: Context, permission: String): Boolean {
         val isGranted: Boolean
-        if (Build.VERSION.SDK_INT >= 23) {
+        if (Build.VERSION.SDK_INT < 23) {
             isGranted = true
         } else {
             isGranted = ContextCompat.checkSelfPermission(context, permission) == 0

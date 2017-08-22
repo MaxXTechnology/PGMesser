@@ -86,7 +86,7 @@
         <ImageView
             android:id="@+id/home_more"
             style="@style/HomeTabStyle"
-            android:src="@drawable/home_more" />
+            android:src="@drawable/home_clear" />
 
     </LinearLayout>
 
