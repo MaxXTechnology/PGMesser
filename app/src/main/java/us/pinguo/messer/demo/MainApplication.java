@@ -17,13 +17,14 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         L.setLogEnable(true);
-        DebugMesser.INSTANCE.install(this, Environment.getExternalStorageDirectory().getAbsolutePath());
         L.setLogListener(new LogPrintListener() {
             @Override
             public void onLog(long time, String tag, int level, String msg) {
                 DebugMesser.INSTANCE.handleMessage(time, level, tag, msg);
             }
         });
+
+        DebugMesser.INSTANCE.install(this);
     }
 
     @Override

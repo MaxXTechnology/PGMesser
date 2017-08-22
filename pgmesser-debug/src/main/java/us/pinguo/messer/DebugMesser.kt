@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Environment
 import android.provider.Settings
 import android.support.v4.content.ContextCompat
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator
@@ -37,7 +38,12 @@ object DebugMesser {
         receiver?.onReceiveLog(time, level, tag, msg)
     }
 
-    fun install(context: Application, sdcardRootDir: String? = null) {
+    fun install(context: Application) {
+        install(context, Environment.getExternalStorageDirectory().absolutePath)
+    }
+
+    fun install(context: Application, sdcardRootDir: String) {
+
         appSdRoot = sdcardRootDir
 
         val config = ImageLoaderConfiguration.Builder(context)
