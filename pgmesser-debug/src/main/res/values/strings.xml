@@ -5,6 +5,11 @@
     <string name="file_browser">File Browser</string>
 
 
+    <string name="permission_title">获取window权限</string>
+    <string name="permission_desc">"messer"需要使用window权限，你是否同意?/n您可以在设置中配置权限</string>
+    <string name="permission_positive">允许</string>
+    <string name="permission_negative">取消</string>
+
     <string name="home_cpu_start">开始耗时统计</string>
     <string name="home_cpu_end">耗时统计结束</string>
 

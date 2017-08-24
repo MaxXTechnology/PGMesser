@@ -10,6 +10,13 @@
         android:supportsRtl="true">
 
         <activity
+            android:name="us.pinguo.messer.home.HomeActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:taskAffinity="us.pinguo.messer"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity
             android:name="us.pinguo.messer.db.DbActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"

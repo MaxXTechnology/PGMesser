@@ -35,5 +35,5 @@ task clean(type: Delete) {
 
 ext {
     PUBLISH_GROUP_ID = 'us.pinguo.common'
-    PUBLISH_VERSION = '1.0.8'
+    PUBLISH_VERSION = '1.0.10'
 }
