@@ -3,7 +3,7 @@ package us.pinguo.messer
 import android.content.Context
 import android.content.Intent
 import us.pinguo.messer.db.DbActivity
-import us.pinguo.messer.home.HomeActivity
+import us.pinguo.messer.home.HomePermissionActivity
 import us.pinguo.messer.image.ImageBrowserActivity
 import us.pinguo.messer.local.LocalFileBrowserActivity
 import us.pinguo.messer.local.LocalFileReadActivity
@@ -13,8 +13,8 @@ import us.pinguo.messer.local.LocalFileReadActivity
  */
 object ActivityLauncher {
 
-    fun launchHome(context: Context) {
-        val i = Intent(context, HomeActivity::class.java)
+    fun launchHomePermission(context: Context) {
+        val i = Intent(context, HomePermissionActivity::class.java)
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(i)
     }

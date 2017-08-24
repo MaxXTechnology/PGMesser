@@ -15,7 +15,8 @@ import us.pinguo.messer.analysis.MesserLeakCanary
 /**
  * Created by hedongjin on 2017/8/24.
  */
-class HomeActivity : Activity() {
+@RequiresApi(Build.VERSION_CODES.M)
+class HomePermissionActivity : Activity() {
 
     companion object {
         val OVERLAY_PERMISSION_REG_CODE = 10001
@@ -24,29 +25,6 @@ class HomeActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(this)) {
-            gotoShortcut()
-        } else {
-            gotoSystemPermission()
-        }
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == OVERLAY_PERMISSION_REG_CODE) {
-            if (Settings.canDrawOverlays(this)) {
-                gotoShortcut()
-            } else {
-                finish()
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun gotoSystemPermission() {
         AlertDialog.Builder(this)
                 .setTitle(R.string.permission_title)
                 .setMessage(R.string.permission_desc)
@@ -68,10 +46,22 @@ class HomeActivity : Activity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == OVERLAY_PERMISSION_REG_CODE) {
+            if (Settings.canDrawOverlays(this)) {
+                gotoShortcut()
+            } else {
+                finish()
+            }
+        }
+    }
+
     fun gotoShortcut() {
         MesserWindowManager.getInstance().init(application, object : HomeMvpContract.IHomeNavigation {
             override fun gotoFolderPage() {
-                ActivityLauncher.launchLocalFileBrowser(this@HomeActivity)
+                ActivityLauncher.launchLocalFileBrowser(this@HomePermissionActivity)
             }
 
             override fun watchMemory(isStart: Boolean) {

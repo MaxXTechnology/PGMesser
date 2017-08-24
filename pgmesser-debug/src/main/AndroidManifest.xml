@@ -10,7 +10,7 @@
         android:supportsRtl="true">
 
         <activity
-            android:name="us.pinguo.messer.home.HomeActivity"
+            android:name="us.pinguo.messer.home.HomePermissionActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:taskAffinity="us.pinguo.messer"
