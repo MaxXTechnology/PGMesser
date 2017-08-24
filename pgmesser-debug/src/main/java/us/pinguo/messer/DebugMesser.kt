@@ -1,15 +1,9 @@
 package us.pinguo.messer
 
-import android.Manifest
 import android.app.Application
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Environment
-import android.provider.Settings
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import android.os.Handler
+import android.os.Looper
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -17,9 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType
 import us.pinguo.common.imageloader.ImageLoaderExecutorFactory
 import us.pinguo.messer.analysis.MesserLeakCanary
-import us.pinguo.messer.home.HomeMvpContract
 import us.pinguo.messer.home.LogReceiver
-import us.pinguo.messer.home.MesserWindowManager
 
 /**
  * Created by hedongjin on 2017/8/1.
@@ -67,7 +59,11 @@ object DebugMesser {
             MesserLeakCanary.install(context)
         }
 
-        ActivityLauncher.launchHome(context)
+        // 延迟2秒初始化，保证覆盖在主Activity之上
+        Handler(Looper.getMainLooper()).postDelayed({
+            ActivityLauncher.launchHome(context)
+        }, 2000)
+
     }
 
 
