@@ -14,33 +14,33 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:taskAffinity="us.pinguo.messer"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/MesserTranslucent"/>
 
         <activity
             android:name="us.pinguo.messer.db.DbActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:taskAffinity="us.pinguo.messer"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/MesserTheme"/>
 
         <activity
             android:name=".local.LocalFileBrowserActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:taskAffinity="us.pinguo.messer"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/MesserTheme" />
         <activity
             android:name=".local.LocalFileReadActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:taskAffinity="us.pinguo.messer"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/MesserTheme" />
         <activity
             android:name=".image.ImageBrowserActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:taskAffinity="us.pinguo.messer"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/MesserTheme" />
     </application>
 </manifest>
 

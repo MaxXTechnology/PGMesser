@@ -16,11 +16,13 @@ import us.pinguo.messer.analysis.MesserLeakCanary
 import us.pinguo.messer.home.HomeMvpContract
 import us.pinguo.messer.home.LogReceiver
 import us.pinguo.messer.home.MesserWindowManager
+import us.pinguo.messer.util.AppUtils
 
 /**
  * Created by hedongjin on 2017/8/1.
  */
 object DebugMesser {
+    var isInit = false
     var appSdRoot: String? = null
     var receiver: LogReceiver? = null
 
@@ -40,8 +42,11 @@ object DebugMesser {
         install(context, Environment.getExternalStorageDirectory().absolutePath)
     }
 
-    fun install(context: Application, sdcardRootDir: String) {
+    @Synchronized fun install(context: Application, sdcardRootDir: String) {
 
+        if (isInit || !AppUtils.isMainApplication(context))return
+
+        isInit = true
         appSdRoot = sdcardRootDir
 
         val config = ImageLoaderConfiguration.Builder(context)
