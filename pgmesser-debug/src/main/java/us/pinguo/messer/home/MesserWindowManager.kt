@@ -33,10 +33,10 @@ class MesserWindowManager private constructor() {
         }
 
         override fun onActivityResumed(activity: Activity?) {
-            mForegroundApp = true
-
             activity?.let {
                 when (activity.componentName.className) {
+                    "us.pinguo.messer.home.HomePermissionActivity" ->
+                        mCurrentWindow.setVisibility(View.GONE)
                     "us.pinguo.messer.db.DbActivity" ->
                         mCurrentWindow.setVisibility(View.GONE)
                     "us.pinguo.messer.local.LocalFileBrowserActivity" ->
@@ -45,8 +45,10 @@ class MesserWindowManager private constructor() {
                         mCurrentWindow.setVisibility(View.GONE)
                     "us.pinguo.messer.image.ImageBrowserActivity" ->
                         mCurrentWindow.setVisibility(View.GONE)
-                    else ->
+                    else -> {
+                        mForegroundApp = true
                         mCurrentWindow.setVisibility(View.VISIBLE)
+                    }
                 }
             }
 

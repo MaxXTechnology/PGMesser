@@ -1,6 +1,7 @@
 package us.pinguo.messer.home
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -20,6 +21,16 @@ class HomePermissionActivity : Activity() {
 
     companion object {
         val OVERLAY_PERMISSION_REG_CODE = 10001
+        val NAVIGATION = object : HomeMvpContract.IHomeNavigation {
+            override fun gotoFolderPage(context: Context) {
+                ActivityLauncher.launchLocalFileBrowser(context)
+            }
+
+            override fun watchMemory(isStart: Boolean) {
+                MesserLeakCanary.setWatchEnable(isStart)
+            }
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,15 +70,7 @@ class HomePermissionActivity : Activity() {
     }
 
     fun gotoShortcut() {
-        MesserWindowManager.getInstance().init(application, object : HomeMvpContract.IHomeNavigation {
-            override fun gotoFolderPage() {
-                ActivityLauncher.launchLocalFileBrowser(this@HomePermissionActivity)
-            }
-
-            override fun watchMemory(isStart: Boolean) {
-                MesserLeakCanary.setWatchEnable(isStart)
-            }
-        })
+        MesserWindowManager.getInstance().init(application, NAVIGATION)
         MesserWindowManager.getInstance().gotoShortcut()
 
         finish()

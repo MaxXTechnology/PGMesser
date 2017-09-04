@@ -1,6 +1,7 @@
 package us.pinguo.messer.home
 
 import android.app.Activity
+import android.content.Context
 
 /**
  * Created by hedongjin on 2017/6/26.
@@ -12,12 +13,12 @@ class HomeMvpContract {
     }
 
     open interface IHomePresenter {
-        open fun gotoFolderPage()
+        open fun gotoFolderPage(context: Context)
         open fun watchMemory(isStart: Boolean)
     }
 
     open interface IHomeNavigation {
-        fun gotoFolderPage()
+        fun gotoFolderPage(context: Context)
         fun watchMemory(isStart: Boolean)
     }
 

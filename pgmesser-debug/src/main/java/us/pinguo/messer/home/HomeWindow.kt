@@ -51,7 +51,7 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
         }
 
         mRootView.home_folder.setOnClickListener {
-            mPresenter.gotoFolderPage()
+            mPresenter.gotoFolderPage(context)
         }
 
         mRootView.home_cpu.setOnClickListener {

@@ -1,6 +1,7 @@
 package us.pinguo.messer
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
@@ -70,7 +71,7 @@ object DebugMesser {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context)) {
             MesserWindowManager.getInstance().init(context, object : HomeMvpContract.IHomeNavigation {
-                override fun gotoFolderPage() {
+                override fun gotoFolderPage(context: Context) {
                     ActivityLauncher.launchLocalFileBrowser(context)
                 }
 
