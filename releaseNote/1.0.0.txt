@@ -1,0 +1,124 @@
+
+------------------------------------------------------------------------------------------------------------------------
+Tue Dec 12 16:47:28 CST 2017
+------------------------------------------------------------------------------------------------------------------------
+----------------------------------------SUCCESS----------------------------------------
+----- us.pinguo.tool:messer-debug:1.0.0 was published                             -----
+----- to http://maven.camera360.com/repository/maven-releases/                    -----
+----- at 2017-12-12 16:48:18                                                      -----
+----- by marui                                                                    -----
+----- packaging is aar                                                            -----
+---------------------------------------------------------------------------------------
+描述信息:Default Desc
+
+------------------------------------------------------------
+Project :pgmesser-debug
+------------------------------------------------------------
+
+archives - Configuration for archive artifacts.
++--- com.android.support:appcompat-v7:26.1.0
+|    +--- com.android.support:support-annotations:26.1.0
+|    +--- com.android.support:support-v4:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- android.arch.lifecycle:runtime:1.0.0
+|    |    |         +--- android.arch.lifecycle:common:1.0.0
+|    |    |         \--- android.arch.core:common:1.0.0
+|    |    +--- com.android.support:support-media-compat:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    |    +--- com.android.support:support-core-utils:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    |    +--- com.android.support:support-core-ui:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-fragment:26.1.0
+|    |         +--- com.android.support:support-compat:26.1.0 (*)
+|    |         +--- com.android.support:support-core-ui:26.1.0 (*)
+|    |         \--- com.android.support:support-core-utils:26.1.0 (*)
+|    +--- com.android.support:support-vector-drawable:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:animated-vector-drawable:26.1.0
+|         +--- com.android.support:support-vector-drawable:26.1.0 (*)
+|         \--- com.android.support:support-core-ui:26.1.0 (*)
++--- com.android.support.constraint:constraint-layout:1.0.2
+|    \--- com.android.support.constraint:constraint-layout-solver:1.0.2
++--- com.android.support:design:26.1.0
+|    +--- com.android.support:support-v4:26.1.0 (*)
+|    +--- com.android.support:appcompat-v7:26.1.0 (*)
+|    +--- com.android.support:recyclerview-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-core-ui:26.1.0 (*)
+|    \--- com.android.support:transition:26.1.0
+|         +--- com.android.support:support-annotations:26.1.0
+|         \--- com.android.support:support-v4:26.1.0 (*)
++--- com.android.support:recyclerview-v7:26.1.0 (*)
++--- com.squareup.leakcanary:leakcanary-android:1.5.4
+|    \--- com.squareup.leakcanary:leakcanary-analyzer:1.5.4
+|         +--- com.squareup.leakcanary:leakcanary-watcher:1.5.4
+|         \--- com.squareup.haha:haha:2.0.3
++--- org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.60
+|    \--- org.jetbrains.kotlin:kotlin-stdlib:1.1.60
+|         \--- org.jetbrains:annotations:13.0
++--- org.jetbrains.kotlin:kotlin-stdlib:1.1.60 (*)
++--- org.jetbrains.anko:anko-common:0.10.3
+|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.1.0 -> 1.1.60 (*)
+|    \--- org.jetbrains.anko:anko-commons:0.10.3
+|         \--- org.jetbrains.kotlin:kotlin-stdlib:1.1.0 -> 1.1.60 (*)
++--- org.jetbrains.anko:anko-sdk15:0.10.3
+|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.1.0 -> 1.1.60 (*)
+|    \--- org.jetbrains.anko:anko-commons:0.10.3 (*)
++--- org.jetbrains.anko:anko-appcompat-v7:0.10.3
+|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.1.0 -> 1.1.60 (*)
+|    +--- org.jetbrains.anko:anko-support-v4:0.10.3
+|    |    +--- org.jetbrains.kotlin:kotlin-stdlib:1.1.0 -> 1.1.60 (*)
+|    |    +--- org.jetbrains.anko:anko-commons:0.10.3 (*)
+|    |    \--- org.jetbrains.anko:anko-support-v4-commons:0.10.3
+|    |         +--- org.jetbrains.kotlin:kotlin-stdlib:1.1.0 -> 1.1.60 (*)
+|    |         \--- org.jetbrains.anko:anko-commons:0.10.3 (*)
+|    \--- org.jetbrains.anko:anko-appcompat-v7-commons:0.10.3
+|         +--- org.jetbrains.kotlin:kotlin-stdlib:1.1.0 -> 1.1.60 (*)
+|         \--- org.jetbrains.anko:anko-support-v4-commons:0.10.3 (*)
++--- org.jetbrains.anko:anko-design:0.10.3
+|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.1.0 -> 1.1.60 (*)
+|    \--- org.jetbrains.anko:anko-commons:0.10.3 (*)
++--- org.jetbrains.anko:anko-recyclerview-v7:0.10.3
+|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.1.0 -> 1.1.60 (*)
+|    \--- org.jetbrains.anko:anko-commons:0.10.3 (*)
++--- org.jetbrains.anko:anko-sqlite:0.10.3
+|    +--- org.jetbrains.kotlin:kotlin-stdlib:1.1.0 -> 1.1.60 (*)
+|    \--- org.jetbrains.anko:anko-commons:0.10.3 (*)
+\--- com.github.bumptech.glide:glide:4.3.0
+     +--- com.github.bumptech.glide:gifdecoder:4.3.0
+     |    \--- com.android.support:support-annotations:26.0.2 -> 26.1.0
+     +--- com.github.bumptech.glide:disklrucache:4.3.0
+     \--- com.github.bumptech.glide:annotations:4.3.0
+
+(*) - dependencies omitted (listed previously)
+
+------------------------------------------------------------------------------------------------------------------------
+Tue Dec 12 16:57:09 CST 2017
+------------------------------------------------------------------------------------------------------------------------
+----------------------------------------SUCCESS----------------------------------------
+----- us.pinguo.tool:messer-release:1.0.0 was published                           -----
+----- to http://maven.camera360.com/repository/maven-releases/                    -----
+----- at 2017-12-12 16:57:11                                                      -----
+----- by marui                                                                    -----
+----- packaging is aar                                                            -----
+---------------------------------------------------------------------------------------
+描述信息:Default Desc
+
+------------------------------------------------------------
+Project :pgmesser-release
+------------------------------------------------------------
+
+archives - Configuration for archive artifacts.
+No dependencies
+------------------------------------------------------------------------------------------------------------------------
+END_OF_PUBLISH
+------------------------------------------------------------------------------------------------------------------------
+
+

@@ -8,7 +8,6 @@ import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.TextView
 import kotlinx.android.synthetic.main.window_home.view.*
-import org.jetbrains.anko.onClick
 import org.jetbrains.anko.runOnUiThread
 import us.pinguo.messer.DebugMesser
 import us.pinguo.messer.R
@@ -108,7 +107,7 @@ open class HomeWindow(context: Context, val navigation: HomeMvpContract.IInnerNa
             }
         }
         mRootView.home_content.append("Logs will print here\n")
-        mRootView.clear_log.onClick { mRootView.home_content.text = "" }
+        mRootView.clear_log.setOnClickListener { mRootView.home_content.text = "" }
         DebugMesser.registerLogReceiver(this)
 
 

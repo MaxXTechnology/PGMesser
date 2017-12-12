@@ -6,9 +6,9 @@
     android:background="@android:color/black"
     android:orientation="vertical">
 
-    <us.pinguo.common.imageloader.widget.ImageLoaderView
-        android:id="@+id/image_loader_view"
-        android:scaleType="center"
+    <ImageView
+        android:id="@+id/image_view"
+        android:scaleType="fitCenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

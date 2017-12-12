@@ -7,12 +7,6 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator
-import com.nostra13.universalimageloader.core.DisplayImageOptions
-import com.nostra13.universalimageloader.core.ImageLoader
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType
-import us.pinguo.common.imageloader.ImageLoaderExecutorFactory
 import us.pinguo.messer.analysis.MesserLeakCanary
 import us.pinguo.messer.home.HomeMvpContract
 import us.pinguo.messer.home.LogReceiver
@@ -49,19 +43,6 @@ object DebugMesser {
 
         isInit = true
         appSdRoot = sdcardRootDir
-
-        val config = ImageLoaderConfiguration.Builder(context)
-                .taskExecutor(ImageLoaderExecutorFactory.createIoExecutor())
-                .taskExecutorForCachedImages(ImageLoaderExecutorFactory.createCacheExecutor())
-                .diskCacheFileNameGenerator(Md5FileNameGenerator())
-                .defaultDisplayImageOptions(DisplayImageOptions.Builder()
-                        .cacheInMemory(true).cacheOnDisk(true).build())
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .build()
-        // Initialize ImageLoader with configuration.
-        ImageLoader.getInstance().init(config)
-        ImageLoader.getInstance().handleSlowNetwork(true)
-
 
         if (!MesserLeakCanary.isInAnalyzerProcess(context)) {
             // This process is dedicated to LeakCanary for heap analysis.

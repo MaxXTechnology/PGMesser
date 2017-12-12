@@ -1,10 +1,8 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    compileSdkVersion 26
     defaultConfig {
         applicationId "us.pinguo.messer.demo"
         minSdkVersion 15
@@ -14,28 +12,34 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        debug110 {
+            storeFile file("$rootDir/c360builder/110debug.keystore")
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug110
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    annotationProcessor 'us.pinguo.common:db-compiler:1.06'
-    compile 'us.pinguo.common:db-annotation:1.06'
-    compile 'us.pinguo.common:db:1.06'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'us.pinguo.common:tinypref:1.0.0'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile project(':pgmesser-debug')
-    compile 'us.pinguo.common:log:2.2.1'
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$support_library_version"
+    implementation 'us.pinguo.common:tinypref:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    debugImplementation project(':pgmesser-debug')
+    releaseImplementation project(':pgmesser-release')
+    implementation 'us.pinguo.common:log:1.0.0'
 }

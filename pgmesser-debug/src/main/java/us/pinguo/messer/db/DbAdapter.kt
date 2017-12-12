@@ -3,10 +3,7 @@ package com.wisdom.cy.mykotlin
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import kotlinx.android.synthetic.main.db_layout.view.*
 import kotlinx.android.synthetic.main.db_table_item_layout.view.*
-import kotlinx.android.synthetic.main.db_table_layout.view.*
 import org.jetbrains.anko.layoutInflater
 import us.pinguo.messer.R
 

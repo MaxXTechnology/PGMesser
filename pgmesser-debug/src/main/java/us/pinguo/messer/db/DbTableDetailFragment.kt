@@ -1,53 +1,40 @@
 package us.pinguo.messer.db
 
+import android.content.ContentValues
 import android.content.Context
+import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
-import com.wisdom.cy.mykotlin.DbAdapter
-import com.wisdom.cy.mykotlin.DbTableDetailAdapter
 import kotlinx.android.synthetic.main.db_table_detail_layout.*
 import kotlinx.android.synthetic.main.db_table_detail_layout.view.*
-import org.jetbrains.anko.db.MapRowParser
-import org.jetbrains.anko.db.select
-import us.pinguo.messer.R
-import java.util.*
-import android.content.ContentValues
-import android.graphics.Rect
-import android.os.AsyncTask
-import android.os.Build
-import android.support.annotation.UiThread
-import android.view.ViewTreeObserver
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import us.pinguo.messer.R
 import us.pinguo.messer.util.UIUtils
-
-
-
-
+import java.util.*
 
 
 /**
  * Created by pinguo on 2017/6/27.
  */
-class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<String>, val resList : List<Map<String, Any?>>, var dbName : String, var name : String) : Fragment() {
+class DbTableDetailFragment(val tableName: String, val nameList: ArrayList<String>, val resList: List<Map<String, Any?>>, var dbName: String, var name: String) : Fragment() {
 
-    var mNamePosition : Int = -1
-    var mListPosition : Int = -1
-    var oldText : String = ""
+    var mNamePosition: Int = -1
+    var mListPosition: Int = -1
+    var oldText: String = ""
     var mContentView: View? = null
 
-    var mKeyboardHeight : Int = -1
-    var mPreviousDisplayHeight : Int = -1
+    var mKeyboardHeight: Int = -1
+    var mPreviousDisplayHeight: Int = -1
 
-    var mOnGlobalLayoutListener : ViewTreeObserver.OnGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-        val displayHeight : Int = getDisplayFrameHeight(mContentView)
+    var mOnGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+        val displayHeight: Int = getDisplayFrameHeight(mContentView)
         val keyboardHeight = getSystemKeyboardHeight(mContentView)
 
 
@@ -58,7 +45,7 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
                 mKeyboardHeight = keyboardHeight
             }
 
-            var key_height : Int = resources.getDimensionPixelSize(R.dimen.keyboard_height_limit)
+            var key_height: Int = resources.getDimensionPixelSize(R.dimen.keyboard_height_limit)
             if (keyboardHeight > key_height) {
 
             } else {
@@ -69,7 +56,7 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
     }
 
 
-    var mItemClickListener : View.OnClickListener = View.OnClickListener {
+    var mItemClickListener: View.OnClickListener = View.OnClickListener {
 
         if (it.tag != null) {
             mNamePosition = it.getTag(R.id.name_position) as Int
@@ -82,61 +69,45 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
             edit_text.setFocusableInTouchMode(true);
             edit_text.requestFocus();
 
-            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(edit_text, InputMethodManager.SHOW_FORCED)
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm?.showSoftInput(edit_text, InputMethodManager.SHOW_FORCED)
         }
     }
 
-    var mDoneClickListener : View.OnClickListener = View.OnClickListener {
-
+    private var mDoneClickListener: View.OnClickListener = View.OnClickListener {
         (resList[mListPosition] as HashMap).put(nameList[mNamePosition], edit_text.text)
-        recyclerview.adapter.notifyDataSetChanged();
-
-        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(edit_text.getWindowToken(), 0); //
-
-
+        recyclerview.adapter.notifyDataSetChanged()
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm?.hideSoftInputFromWindow(edit_text.windowToken, 0)
         edit_text_layout.visibility = View.GONE
-
-        doAsync{
-
-            var sqliteDatabase =  activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-
-            val values = ContentValues()
-            values.put(nameList[mNamePosition], edit_text.text.toString())
-
-
-            var arrayList : ArrayList<String> = ArrayList()
-            var where = ""
-            for ((k,v) in resList[mListPosition]){
-                where += "$k = ? and "
-                if (k.equals(nameList[mNamePosition])) {
-
-                    arrayList.add(oldText)
-                } else {
-                    if (v != null) {
-                        arrayList.add(v.toString())
+        doAsync {
+            activity?.let {
+                val sqliteDatabase = it.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null)
+                val values = ContentValues()
+                values.put(nameList[mNamePosition], edit_text.text.toString())
+                val arrayList: ArrayList<String> = ArrayList()
+                var where = ""
+                for ((k, v) in resList[mListPosition]) {
+                    where += "$k = ? and "
+                    if (k == nameList[mNamePosition]) {
+                        arrayList.add(oldText)
                     } else {
-                        arrayList.add("null")
+                        if (v != null) {
+                            arrayList.add(v.toString())
+                        } else {
+                            arrayList.add("null")
+                        }
+
                     }
-
                 }
-//                println("value:" + whereArgs[index])
+                where += "1 = 1"
+                println("where:" + where)
+                sqliteDatabase.update(name, values, where, arrayList.toArray(arrayOfNulls<String>(nameList.size)))
             }
-
-            where += "1 = 1"
-            println("where:" + where)
-
-            sqliteDatabase.update(name, values, where, arrayList.toArray(arrayOfNulls<String>(nameList.size)))
-
-
-
-
         }
 
 
     }
-
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -145,7 +116,7 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
 
         view.button.setOnClickListener(mDoneClickListener)
 
-        var layoutParams : ViewGroup.LayoutParams = view.recyclerview.layoutParams
+        var layoutParams: ViewGroup.LayoutParams = view.recyclerview.layoutParams
         layoutParams.width = nameList.size * resources.getDimensionPixelSize(R.dimen.detail_item_width)
         view.recyclerview.layoutParams = layoutParams
 
@@ -155,8 +126,8 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
             view.recyclerview.adapter = DbTableDetailAdapter(context, nameList, resList, mItemClickListener)
         }
 
-        view.back.setOnClickListener{
-            activity.supportFragmentManager.beginTransaction().remove(this).commit();
+        view.back.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
 
 
@@ -168,20 +139,15 @@ class DbTableDetailFragment(val tableName : String, val nameList : ArrayList<Str
 
         if (mContentView != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mContentView!!.getViewTreeObserver().removeOnGlobalLayoutListener(mOnGlobalLayoutListener);
+                mContentView!!.getViewTreeObserver().removeOnGlobalLayoutListener(mOnGlobalLayoutListener)
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-
-        mContentView = activity.getWindow().getDecorView();
-        if (mContentView != null) {
-            mContentView!!.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
-        }
-
-
+        mContentView = activity?.window?.decorView
+        mContentView?.viewTreeObserver?.addOnGlobalLayoutListener(mOnGlobalLayoutListener)
     }
 
     fun getDisplayFrameHeight(view: View?): Int {

@@ -25,8 +25,7 @@ import java.util.*
  * Created by pinguo on 2017/6/27.
  */
 @SuppressLint("ValidFragment")
-class DbTableFragment (var dbName : String) : Fragment() {
-
+class DbTableFragment(var dbName: String) : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -40,54 +39,45 @@ class DbTableFragment (var dbName : String) : Fragment() {
     }
 
     fun initTitleBar(view: View) {
-        val toolbar = view.findViewById(R.id.toolbar) as Toolbar
-        toolbar.setTitle(File(dbName).name)
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
+        toolbar.title = File(dbName).name
         toolbar.setNavigationIcon(R.drawable.back)
         toolbar.setNavigationOnClickListener {
-            activity.finish()
+            activity?.finish()
         }
     }
 
     fun initTableList(view: View) {
-        var sqliteDatabase =  activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-
+        var sqliteDatabase = activity?.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null)
         doAsync {
-
-            var list = sqliteDatabase.select("sqlite_master").parseList(object : MapRowParser<String> {
+            var list = sqliteDatabase?.select("sqlite_master")?.parseList(object : MapRowParser<String> {
                 override fun parseRow(columns: Map<String, Any?>): String {
                     var name = columns["name"] as String
                     return name
                 }
             })
-
-
             uiThread {
-                if (!activity.isFinishing) {
+                if (activity != null && !activity!!.isFinishing) {
                     if (list == null) {
-                        list = ArrayList();
+                        list = ArrayList()
                     }
-
-                    val recyclerview = view.findViewById(R.id.recyclerview) as RecyclerView
-
+                    val recyclerview = view.findViewById<RecyclerView>(R.id.recyclerview)
                     recyclerview.layoutManager = LinearLayoutManager(context)
-                    recyclerview.adapter = DbAdapter(list, View.OnClickListener {
-
+                    recyclerview.adapter = DbAdapter(list!!, View.OnClickListener {
                         startDetailPage(it.getTag() as String)
                     })
                 }
-
-
             }
         }
 
     }
 
-    fun startDetailPage(name : String) {
+    fun startDetailPage(name: String) {
 
         doAsync {
 
-            var sqliteDatabase =  activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-            var list = sqliteDatabase.select(name).parseList(object : MapRowParser<Map<String, Any?>> {
+            val sqliteDatabase = activity?.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null)
+            var list = sqliteDatabase?.select(name)?.parseList(object : MapRowParser<Map<String, Any?>> {
                 override fun parseRow(columns: Map<String, Any?>): Map<String, Any?> {
 
                     return columns
@@ -95,21 +85,19 @@ class DbTableFragment (var dbName : String) : Fragment() {
             })
 
             uiThread {
-                var nameList : ArrayList<String> = ArrayList()
+                val nameList: ArrayList<String> = ArrayList()
 
                 if (list == null) {
-                    list = ArrayList();
+                    list = ArrayList()
                 }
 
-                if (list.size > 0) {
-                    for (name in list.get(0).keys) {
-                        nameList.add(name)
-                    }
+                if (list!!.isNotEmpty()) {
+                    nameList += list!![0].keys
                 }
 
-                var fm: FragmentManager = activity.supportFragmentManager
-                var tableDetailFragment : DbTableDetailFragment = DbTableDetailFragment(name, nameList, list, dbName, name)
-                fm.beginTransaction().add(R.id.content, tableDetailFragment).addToBackStack("table_detail").commit()
+                val fm: FragmentManager? = activity?.supportFragmentManager
+                val tableDetailFragment: DbTableDetailFragment = DbTableDetailFragment(name, nameList, list!!, dbName, name)
+                fm?.beginTransaction()?.add(R.id.content, tableDetailFragment)?.addToBackStack("table_detail")?.commit()
 
             }
 

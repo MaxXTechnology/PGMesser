@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.nostra13.universalimageloader.core.download.ImageDownloader
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.act_image_browser.*
 import us.pinguo.messer.R
 
@@ -25,7 +25,7 @@ class ImageBrowserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.act_image_browser)
         val readPath = intent.getStringExtra("readPath")
-        image_loader_view.setImageUrl(ImageDownloader.Scheme.FILE.wrap(readPath))
+        Glide.with(this).load(readPath).into(image_view)
     }
 
 
